@@ -791,18 +791,18 @@ body {
     right: 15px;
     top: 50%;
     display: block;
-    width: 92px;
-    height: 92px;
+    width: 102px;
+    height: 102px;
     line-height: 92px;
-    -moz-border-radius: 92px;
-    -webkit-border-radius: 92px;
+    -moz-border-radius: 102px;
+    -webkit-border-radius: 102px;
     border-radius: 92px;
     -moz-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
     color: #000;
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'Verdana', sans-serif;
     text-align: center;
     letter-spacing: .5px;
@@ -1083,12 +1083,15 @@ body {
     top: -40px;
     padding: 5px 25px;
     background-color: rgba(0, 0, 0, 0.5);
-    color: #fff; 
-   
-
+    color: #fff;
 }
 
 .foot button {
+    font-size: 30px;
+    font-weight: 150;
+}
+
+.foot a {
     font-size: 30px;
     font-weight: 150;
 }
@@ -1100,6 +1103,7 @@ body {
     line-height: 20px;
     color: #fff;
 }
+
 .gal-container .description h5 {
     margin: 0px;
     font-size: 25px;
@@ -1108,6 +1112,7 @@ body {
     color: #fff;
     /* text-align: right; */
 }
+
 .gal-container .modal.fade .modal-dialog {
     -webkit-transform: scale(0.1);
     -moz-transform: scale(0.1);

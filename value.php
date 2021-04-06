@@ -5,7 +5,7 @@
         require "modal/connect.php";
         $dt = new database();
         $dt->connect();
-        $sql = "select * from products where id_product=$id";
+        $sql = "select * from discount_product where id_product=$id";
         $result = mysqli_query($dt->conn,$sql);
         while($row =mysqli_fetch_assoc($result) )
     {

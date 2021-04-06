@@ -15,32 +15,20 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-   
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
     <link rel="stylesheet" href="css/style-index.css">
-
     <!-- Responsive -->
     <link rel="stylesheet" href="css/responsive.css">
     <!-- color -->
     <link id="changeable-colors" rel="stylesheet" href="css/colors/orange.css" />
-    <!-- Modernizer -->
     <script src="js/modernizer.js"></script>
-
-
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
-
 <style>
     
-
-
 </style>
 <body>
     <div id="site-header">
@@ -90,7 +78,7 @@
                 <div class="banner-static">
                     <div class="banner-text">
                         <div class="banner-cell">
-                            <h1>Eat with <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Group Restaurant:Family:" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
+                            <h1>Enjoy With <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Our Group:Family:" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
                             <h2>Restaurant </h2>
                             <p>Hãy tin tưởng lựa chọn điểm đến mỗi ngày để có một bữa ăn ấm áp nhé</p>
                             <div class="book-btn">
@@ -118,18 +106,7 @@
                         <input type="text" placeholder="Search">
                         <button><i class="fa fa-search"></i></button>
                     </div>
-                </div>
-                <div class="col-md-3 main-nav">
-                    <div class="account">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                            <div class="dropdown-menu">
-                                <a href="" class="dropdown-item">Login</a>
-                                <a href="#" class="dropdown-item">Register</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div>                   
             </div>
         </div>
     </div>
@@ -183,7 +160,7 @@
                                 <a class="item-hover">
                                     <div class="item-info">
                                         <div class="headline">
-                                            <?php echo $product['name_product'] ?>
+                                            <?php echo $product['name_newProd'] ?>
                                             <div class="line"></div>
                                             <div class="dit-line">Anh di ỉa đêm anh sợ nha đừng để anh đi ỉa đêm nhé em.</div>
                                             <div class="cart" style="float:left border-radius=24px">
@@ -418,8 +395,6 @@
                                 <button  data-toggle="modal" data-target="#2"class="show" value="<?php echo $discount['id_product']?>" >
                                     <img src="<?php echo $discount['image']?>" alt=""/>
                                 </button>
-
-
                                 <div class="modal fade" id="2" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -432,14 +407,12 @@
                                                 <h5 id='price' class="col-md-3"></h5>                                                                                      
                                             </div>
                                             <div class="modal-footer foot" style="float:left">
-                                                <button href=""><i class="fa fa-shopping-cart"></i></button>
+                                                <button ><i class="fa fa-shopping-cart"></i></button>
                                                 <button href=""><i class="fa fa-heart"></i></button>   
                                             </div>
                                         </div>                                       
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                         <?php 
