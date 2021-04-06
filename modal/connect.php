@@ -1,4 +1,5 @@
 <?php
+
 class database
 {
     private $db_server = "localhost";
@@ -77,17 +78,12 @@ class database
     {
         $this->connect();
         $result=array();
-        $row = mysqli_query($this->conn, $sql);
-        if (!$row) {
-            die('câu lệnh bị sai!');
-        }
-        if (mysqli_num_rows($row) > 0) {
-            while ($result = mysqli_fetch_assoc($row)) {      
-                $result[]=$row;
-            }
-        
-        }
-        return $row;
+        $result = mysqli_query($this->conn,$sql);
+		while($row=mysqli_fetch_assoc($result)) {
+			$resultset[] = $row;
+		}		
+		if(!empty($resultset))
+			return $resultset;
     }
 
     public function read_product_detail($id){
@@ -106,9 +102,9 @@ class database
                 
             }
           return $result;
-
-          
     }   
+    
+    
 }
 
 ?>

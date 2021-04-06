@@ -1,13 +1,48 @@
 <?php
-session_start();
-$is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthenticated'] : false;
-if ($is_authenticated) {
-  $user = $_SESSION['user'];
+
+
+if (array_key_exists('add-to-cart', $_POST)) {
+    $id = $_POST["add-to-cart"];
+    header("location:carts/cart.php?id=" . $id);
 }
-if(array_key_exists('add-to-cart',$_POST)){
-    $id=$_POST["add-to-cart"];
-    header("location:cart/cart.php?id=".$id);
-}
+    session_start();
+	$status = "";
+	if (isset($_POST['idd']) && $_POST['idd'] != "") {
+		$idd = $_POST['idd'];
+		$result = mysqli_query($con, "SELECT * FROM `product` WHERE `id_newProd`='$idd'");
+		$row = mysqli_fetch_assoc($result);
+		$name = $row['name'];
+		$idd = $row['idd'];
+		$price = $row['price'];
+		$image = $row['image'];
+
+		$cartArray = array(
+			$idd => array(
+				'name_newProd' => $name,
+				'id_newProd' => $idd,
+				'price' => $price,
+				'quantity' => 1,
+				'image' => $image
+			)
+		);
+
+		if (empty($_SESSION["book_table"])) {
+			$_SESSION["book_table"] = $cartArray;
+			$status = "<div class='box'>Product is added to your cart!</div>";
+		} else {
+			$array_keys = array_keys($_SESSION["book_table"]);
+			if (in_array($idd, $array_keys)) {
+				$status = "<div class='box' style='color:red;'>
+			Product is already added to your cart!</div>";
+			} else {
+				$_SESSION["book_table"] = array_merge($_SESSION["book_table"], $cartArray);
+				$status = "<div class='box'>Product is added to your cart!</div>";
+			}
+		}
+	}
+
+
+
 ?>
 
 
@@ -38,11 +73,17 @@ if(array_key_exists('add-to-cart',$_POST)){
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/login.js"></script>
+    <script src="js/signup.js"></script>
 </head>
 
 <style>
-
-
+    .profile-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+    }
 </style>
 
 <body>
@@ -77,7 +118,15 @@ if(array_key_exists('add-to-cart',$_POST)){
                                     <li><a href="#reservation">Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
                                     <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
-                                    <li> <a href="#" class="btn cart"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
+                                    <?php
+                                        if (!empty($_SESSION['book_table'])) {
+                                            $cart_count = count(array_keys($_SESSION['book_table']));
+                                    ?>
+                                    <li> <a href="#" class="btn cart" ><i class="fa fa-shopping-cart"></i><span><?php echo $cart_count;?></span></a></li>
+                                     <?php
+                                    }
+                                    ?>       
+                                
                                 </ul>
                             </div>
                         </nav>
@@ -123,128 +172,14 @@ if(array_key_exists('add-to-cart',$_POST)){
                     </div>
                 </div>
                 <?php
-                if ($is_authenticated) {
-                    echo '
-                      <li><a href="#"><img class="profile-avatar" src="' . $user['avatar'] . '"/></a></li>
-                      <li><a href="modal/logout.php">Logout</a></li>
-                    ';
-                } else {
-                    echo '
-                      <li><a data-toggle="modal" data-target="#login" href="#login">Login</a></li>
-                      <li><a data-toggle="modal" data-target="#register" href="#register">Register</a></li>
-                    ';
-                }
+             
                 ?>
             </div>
         </div>
     </div>
     <!-- Bottom Bar End -->
 
-    <!-- Registeration Modal -->
-    <div class="modal fade" id="register">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content form-wrapper">
-                <div class="close-box" data-dismiss="modal">
-                    <i class="fa fa-times fa-2x"></i>
-                </div>
-                <div class="container-fluid mt-5">
-                    <form id="sign-up-form" enctype="multipart/form-data">
-                        <div class="form-group text-center pb-2 ">
-                            <h4>Registration Form</h4>
-                        </div>
-                        <div class="form-group col">
-                            <label for="fullname"> Full Name</label>
-                            <input type="text" name="fullname" class="form-control" placeholder="Thai Tran Hung Vuong" required>
-                        </div>
-                        <div class="form-group col">
-                            <label for="username"> User name</label>
-                            <input type="text" name="username" class="form-control" placeholder="Vuong11" required>
-                        </div>
-                        <div class="form-row mb-1">
-                            <div class="form-group col">
-                                <label for="password">Password</label>
-                                <input type="password" name="password1" class="form-control" placeholder="password" autocomplete="new-password" required>
-                            </div>
-                        </div>
-                        <div class="form-group col">
-                            <label for="confirmpassword">Confirm Password</label>
-                            <input type="password" name="confirmpassword" class="form-control" placeholder="confirmpassword" autocomplete="new-password" required>
-                        </div>
-                        <div class="form-group col" style="position:relative;">
-                            <label for='avatar' style="display:block">Profile Picture</label>
-                            <!-- <input type="file"   name="avatar" class="btn btn-dark form-control" onclick="">Select Image</button> -->
-                            <!-- <input type="file" name="avatar" accept="img/*" style="display:none;" required> -->
-                            <input type="file" name="avatar" accept="images/*" class="filestyle" class="btn btn-dark form-control">
-                        </div>
-                        <div class="form-group col">
-                            <label for="gender">Gender</label>
-                            <input type="text" name="gender" class="form-control" placeholder="" required>
-                        </div>
-                        <div class="form-group" style="position:relative;">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" class="form-control mb-1" placeholder="jhonedoe@gmail.com" required>
-                            <a href="#" data-toggle="modal" data-target="#login" style="display:none; position: absolute; right: 0; font-size: 12px;">That's you? Login</a>
-                        </div>
-                        <div class="form-group col">
-                            <label for="phone">Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="" required>
-                        </div>
-                        <div class="form-group col">
-                            <label for="addresss">Address</label>
-                            <input type="text" name="addresss" class="form-control" placeholder="" required>
-                        </div>
 
-                        <div class="form-group">
-                            <button class="btn btn-info form-control">Register</button>
-                        </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- Login Modal -->
-    <div class="modal fade" id="login">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content form-wrapper">
-                <div class="close-box" data-dismiss="modal">
-                    <i class="fa fa-times fa-2x"></i>
-                </div>
-                <div class="container-fluid mt-5">
-                    <form id="login-form" enctype="multipart/form-data">
-                        <div class="form-group text-center">
-                            <h4>Login Form</h4>
-                            <h6>Enter your credentials</h6>
-                        </div>
-                        <div class="form-group" style="position: relative;">
-                            <label for="user_name">Username</label>
-                            <input type="text" name="username" class="form-control mb-1" placeholder="Your username" required>
-                        </div>
-                        <div class="form-group pb-3" style="position: relative;">
-                            <label for="password">Password</label>
-                            <input type="password" name="password1" class="form-control mb-1" placeholder="Your password" required>
-                            <a href="#forgotPassword" style="display:block; position: absolute; right: 0;" title="Fill Email Field and Click it">
-                                Forgot Password?
-                            </a>
-                        </div>
-                        <div class="form-group pt-2">
-                            <button class="btn btn-info form-control">Login</button>
-                        </div>
-                        <h6>OR Continue with</h6>
-                        <div class="log-out">
-                            <button class="signup-form" id="register">Sign Up</button>
-                        </div>
-                        <div class="form-group text-center pt-2 social-login">
-                            <a href="#" class="google"> <i class="fa fa-google-plus fa-lg"></i> </a>
-                            <a href="#" class="facebook"> <i class="fa fa-facebook fa-lg"></i> </a>
-                            <a href="#" class="twitter"> <i class="fa fa-twitter fa-lg"></i> </a>
-                            <a href="#" class="github"> <i class="fa fa-github fa-lg"></i> </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- div about us -->
     <div id="about" class="about-main pad-top-100 pad-bottom-100">
         <div class="container">
@@ -286,7 +221,11 @@ if(array_key_exists('add-to-cart',$_POST)){
                             require_once "modal/connect.php";
                             $dt = new database();
                             $dt->connect();
-                            $sql = 'select * from product';
+                            // select du lieu truy van la new prod
+                            $sql = 'select * from product p 
+                                INNER JOIN Product_category c
+                                on (p.id_prodCate=c.id_prodCate)         
+                                    where p.id_prodCate= 1';
                             $getAll = $dt->select($sql);
                             foreach ($getAll as $product) {
                             ?>
@@ -298,10 +237,12 @@ if(array_key_exists('add-to-cart',$_POST)){
                                                 <div class="line"></div>
                                                 <div class="dit-line">Anh di đêm anh sợ nha đừng để anh đi đêm nhé em.</div>
                                                 <div class="cart" style="float:left border-radius=24px">
-                                                <form action="" method="post">
-                                                    <button name="add-to-cart" value="<?php echo $product['id_newProd']?>"style="color:black"><i class="fa fa-shopping-cart"></i></button>
-                                                </form>
-                                                    <button href="#" style="color:black"><i class="fa fa-heart"></i></button>
+                                                    <form action='' method="post">
+                                                        
+                                                        <button href="#" style="color:black"><i class="fa fa-heart"></i></button>
+                                                        <button  name="add-to-cart" value="<?php echo $product['id_newProd'] ?>" style="color:black"><i class="fa fa-shopping-cart"></i></button>
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -544,14 +485,12 @@ if(array_key_exists('add-to-cart',$_POST)){
                                                     <h5 id='price' class="col-md-3"></h5>
                                                 </div>
                                                 <div class="modal-footer foot" style="float:left">
-                                                    <button ><i class="fa fa-shopping-cart"></i></button>
+                                                    <button><i class="fa fa-shopping-cart"></i></button>
                                                     <button href=""><i class="fa fa-heart"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         <?php
