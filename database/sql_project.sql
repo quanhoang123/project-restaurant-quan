@@ -1,59 +1,46 @@
-drop database if exists RESTAURANT_PROJECT;
-create database RESTAURANT_PROJECT;
-use RESTAURANT_PROJECT;
+drop database if  exists group_restaurant;
+create database group_restaurant;
+use group_restaurant;
+
 -- -----------------------------
 -- table for image:
 -- -----------------------------
 
-Create table if not exists image_member(
+ 
+
+Create table  image_member(
 id INT(11) NOT NULL auto_increment primary key,
 name_mem varchar(255) default null,
 image_mem varchar(255)  COLLATE utf8_unicode_ci NOT NULL,
 Note varchar(255) default null
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
  insert into image_member value
-(1, 'Quan', 'img/img_member/quan.jpg', 'Quanty nha'),
-(2,'Diem','img/img_member/diem.jpg', 'Không biết thì hỏi thầy sẽ biết'),
-        (3,'Vương','img/img_member/vuong.jpg', 'Auto hand some boy'),
-        (4,'Vi','img/img_member/vi.jpg', 'Dep trai co gi sai');
+(1, 'Quan', '../img/img_member/quan.jpg', 'Quanty nha'),
+(2,'Diem','../img/img_member/diem.jpg', 'Không biết thì hỏi thầy sẽ biết'),
+        (3,'Vương','../img/img_member/vuong.jpg', 'Auto hand some boy'),
+        (4,'Vi','../img/img_member/vi.jpg', 'Dep trai co gi sai');
        
-
-CREATE table if not exists image_cuss(
-id INT(11) NOT NULL auto_increment primary key,
-name_cus varchar(255) default null,
-image_cus varchar(255)  COLLATE utf8_unicode_ci NOT NULL,
-Note varchar(255) default null
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
- insert into image_cuss value
-(1, 'Bat Gioi', 'img/img_customer/batgioi.jpg', 'good'),
-(2,'Obama','img/img_customer/obama.jpg', 'good'),
-        (3,'thidiemidol','img/img_customer/batgioi.jpg', 'good');
-       
--- -----------------------------
--- table for image_slider:
--- -----------------------------
-
-CREATE table if not exists image_slider (
+CREATE table  image_slider (
 id INT(11) NOT NULL auto_increment primary key,
 name_slider varchar(255) default null,
 image varchar(255)  COLLATE utf8_unicode_ci NOT NULL,
 note varchar(255) default null
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
  insert into image_slider value
-(1, 'Good', 'img/interface/backgroundd.jpg', 'Shop Now'),
-(2,'Good','img/interface/backgroundd.jpg', 'Shop Now'),
-        (3,'Good','img/interface/backgroundd.jpg', 'Shop Now');
+(1, 'Good', '../img/interface/backgroundd.jpg', 'Shop Now'),
+(2,'Good','../img/interface/backgroundd.jpg', 'Shop Now'),
+        (3,'Good','../img/interface/backgroundd.jpg', 'Shop Now');
        
 -- -----------------------------
 -- table for admin:
 -- -----------------------------
-CREATE TABLE  if not exists admin (
+CREATE TABLE   admin (
 id INT(11) NOT NULL,
 username VARCHAR(50) DEFAULT NULL,
 password VARCHAR(50) DEFAULT NULL,
 PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 INSERT INTO admin
 VALUES (1, 'mylishop', '8A86E1AAF7327885729E5B450841FEF6'),
 (2,'trungquanidol','q!uan1211'),
@@ -62,41 +49,30 @@ VALUES (1, 'mylishop', '8A86E1AAF7327885729E5B450841FEF6'),
         (5,'hungvuongidol','vuong!1211');
 
 select * from admin;
--- -----------------------------
--- table for employee:
--- -----------------------------
-create table if not exists employees(
-id_employee int primary key,
-name_employee varchar(60),
+create table employees(
+id_employeer int primary key,
+name_employeer varchar(60),
     gender varchar(5),
-    age int(2),
     address varchar(100),
     phone varchar(11),
-    positions varchar(50), -- chức vụ vị trí trong cty
-    salary decimal(10,2),
-    dateOfwork date
+    salary decimal(10,2)
 );
 insert into employees
-values (1,'Nguyen Doan Ngoc Hau','Nu',19,'Hai Lang- Quang Tri',12000123,'quan li',6000000,'2019-3-3'),
-(2,'Nguyen Dinh Long','Nam',20,'Dinh-10 Quang Binh',111112,'Ke Toan',3000000,'2020-3-6'),
-(3,'Nguyen Ngoc Pha','Nam',19,'Quang Nam',111113,'Tu Van',5000000,'2020-05-08'),
-(4,'Le Ngoc Vi','Nam',19,'Binh Dinh',111114,'Tu Van',5000000,'2019-07-06'),
-(5,'Le Hong Hanh','Nu',19,'Tuyen Hoa- Quang Tri',111115,'Marketing',4000000,'2019-12-08'),
-(6,'Ho Thi Nhu Quynh','Nu',19,'Quang Tri',111116,'Marketing',4000000,'2019-05-06');
-
-select * from employees;
--- -----------------------------
--- table for user:
--- -----------------------------
-create table if not exists users(
-	id_user int primary key,
+values (1,'Nguyen Doan Ngoc Hau','Nu','Hai Lang- Quang Tri',12000123,6000000),
+(2,'Nguyen Dinh Long','Nam','Dinh-10 Quang Binh',111112,3000000),
+(3,'Nguyen Ngoc Pha','Nam','Quang Nam',111113,5000000),
+(4,'Le Ngoc Vi','Nam','Binh Dinh',111114,5000000),
+(5,'Le Hong Hanh','Nu','Tuyen Hoa- Quang Tri',111115,4000000),
+(6,'Ho Thi Nhu Quynh','Nu','Quang Tri',111116,4000000);
+create table  users(
+id_user int primary key,
     fullname varchar(60),
     user_name varchar(255),
     password char(11),
     gender char(5),
     email varchar(50),
     phone char(11),
-    status int(11) not null default '0',
+    role int(11) not null default '0',
     address varchar(100)
 );
 
@@ -106,27 +82,7 @@ value (100,'Nguyen Van Hung','hungvon123','h!ung1211','Nam','hung100@gmail.com',
 
 select * from users;
 
--- -----------------------------
--- table for carts:
--- -----------------------------
-create table if not exists carts(
-	id_cart int auto_increment primary key,
-    name_product varchar(255) not null,
-    price decimal(10,2) not null,
-    payments varchar(50), -- cột hình thức thanh toán
-    delivery_address varchar(50) -- địa chỉ giao hàng
-);  
--- insert into carts values (01,20000,'shipper','Thi Xa-Quang Tri'),
--- (02,100000,'shipper','Le Thuy-Quang Binh'),
--- (03,150000,'shipper','Hue'),
--- (04,200000,'shipper','Ha Noi'),
--- (05,25000,'shipper','Lien Chieu-Da Nang'),
--- (06,90000,'shipper','Hoa Khanh-Da Nang');
 
-
--- -----------------------------
--- table for carts:
--- -----------------------------
 
 -- Tạo bảng nhà cung cấp
 create table Vendor(
@@ -140,86 +96,20 @@ insert into Vendor value(1,'ABCD','33-HungVuong-HaNoi',012345,'abcd@gmail.com.vn
 (2,'CDEFH','Ho Chi Minh',012367,'cdefh@gmail.com.vn'),
 (3,'HFQXZ','Da Nang',012389,'hfqxz@gmail.com.vn'),
 (4,'HDTHC','Quang Binh',19008198,'hdthc@gmail.com.vn');
-
 -- Tạo bảng danh mục sản phẩm( thể loại chính cho từng sản phẩm)
 create table Product_category(
-	id_prodCate int primary key,
-   --  id_cart int,
-    product_Category_Name varchar(100)
-   --  foreign key (id_cart) references carts(id_cart)
+id_prodCate int primary key auto_increment,
+    product_Category_Name varchar(100),
+id_vendor int,
+    foreign key (id_vendor) references Vendor(id_vendor)
 );
-insert into Product_category values (1,'New Product'),
-(2,'Drinks'),
-(3,'Product Discount'),
-(4,'Room');
--- -----------------------------
--- table for products:
--- -----------------------------
-CREATE TABLE if not exists products (
-id_product int NOT NULL AUTO_INCREMENT,
-name_product varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-category_id int(11) NOT NULL,
-image varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-description text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-price float NOT NULL,
-created_day date NOT NULL,
-quantity int(11) NOT NULL,
--- keyword varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-status int(11) DEFAULT NULL,
-PRIMARY KEY (id_product),
-FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
-
-insert into products values
-(1010,'Ba Ba',1,'img/img-product/baba.jpg','',100000,'2020-1-21',20,1),
-(1011,'Ga Luoc',1,'img/img-product/galuoc.png','',150000,'2020-03-05',23,1),
-(1012,'Cua Hoang De',1,'img/img-product/cuahoangde.jpg','',150000,'2020-03-05',23,1),
-(1013,'Ca Mú Hấp',1,'img/img-product/camuhap.jpg','',700000,'2020-05-11',20,1),
-(1014,'Cá',2,'img/img-product/ganuong.jpg','',100000,'2020-05-12',20,1),
-(1015,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',40,1),
-(1016,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',40,1),
-(1017,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',40,1),
-(1018,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',40,1),
-(1019,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',40,1);
--- (1016,'TV Sony SX max',14000000,1,'Sản phâm ưu dùng nhất thi trường siêu bền','2020-05-17',2),
--- (1017,'Sofa',14000000,1,'Ngồi êm hơn cùng sofa','2020-05-19',1),
--- (1018,'May tinh ASUS',12000000,1,'Thoái mái xem phim lướt fb cùng bạn tình','2020-03-15',4),
--- (1019,'Smartphone',10000000,1,'Dien thoai chong tham nươc cuc tot tới 99%','2020-01-10',4);
-
-select *from Products;
+insert into Product_category values (1,'New Product',2),
+(2,'Drinks',3),
+(3,'Product Discount',4),
+                                    (4,'Room',1);
 
 
-
--- -----------------------------
--- table for products:
--- -----------------------------
-CREATE TABLE if not exists discount_product (
-id_product int NOT NULL AUTO_INCREMENT,
-name_product varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-category_id int(11) NOT NULL,
-image varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-description text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-price float NOT NULL,
-old_price float not null,
-created_day date NOT NULL,
-quantity int(11) NOT NULL,
--- keyword varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-status int(11) DEFAULT NULL,  
-PRIMARY KEY (id_product),
-FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
-
--- drop table discount_product;
-
-insert into discount_product values
-(1010,'Ba Ba',1,'img/img-product/baba.jpg','',120000,100000,'2020-1-21',20,3),
-(1011,'Ga Luoc',1,'img/img-product/galuoc.png','',200000,150000,'2020-03-05',23,3),
-(1012,'Cua Hoang De',1,'img/img-product/cuahoangde.jpg','',200000,150000,'2020-03-05',23,3),
-(1013,'Ca Mú Hấp',1,'img/img-product/camuhap.jpg','',1000000,700000,'2020-05-11',20,3),
-(1014,'Cá',2,'img/img-product/honhop.jpg','',200000,100000,'2020-05-12',20,3),
-(1015,'Ga Nuong',1,'img/img-product/ganuong.jpg','',600000,500000,'2020-05-14',40,3);
-
- create table if not exists drinks(
+create table if not exists drinks(
 id int(11) NOT NULL AUTO_INCREMENT,
 name_water varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 category_id int(11) NOT NULL,
@@ -253,15 +143,66 @@ FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate)
 INSERT INTO wedding_img values 	(1,'Tôm Nướng',2,'img/wedding/tom.jpg','',200000,0),
 							(2,'Fruit',2,'img/wedding/fruit.jpg','',200000,0),
                             (3,'Mâm Cưới',2,'img/wedding/mâm.jpg','',200000,0);
-                            
+                       
+create table product(
+	id_newProd int primary key auto_increment,
+    name_newProd varchar(100),
+	id_prodCate int, -- id thể loái sản phầm
+	image varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+    price decimal(10,2) not null,
+    quantity int,
+    Descriptions varchar(250), -- mô tả sản phẩm
+status int(11) DEFAULT NULL,
+    foreign key (id_prodCate) references Product_category(id_prodCate)
+);
+insert into product values
+(1,'Ba Ba',1,'../img/img-product/baba.jpg','',100000,'2020-1-21',1),
+(2,'Ga Luoc',1,'../img/img-product/galuoc.png','',150000,'2020-03-05',1),
+(3,'Cua Hoang De',1,'../img/img-product/cuahoangde.jpg','',150000,'2020-03-05',1),
+(4,'Ca Mú Hấp',1,'../img/img-product/camuhap.jpg','',700000,'2020-05-11',1),
+(5,'Cá',2,'../img/img-product/ganuong.jpg','',100000,'2020-05-12',1),
+(6,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',500000,'2020-05-14',1),
+(7,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',500000,'2020-05-14',1),
+(8,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',500000,'2020-05-14',1),
+(9,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',500000,'2020-05-14',1),
+(10,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',500000,'2020-05-14',1);
 
+
+-- -----------------------------
+-- table for products:
+-- -----------------------------
+CREATE TABLE  discount_product (
+id_product int NOT NULL AUTO_INCREMENT,
+name_product varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+category_id int(11) NOT NULL,
+image varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+description text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+price float NOT NULL,
+    old_price float not null,
+created_day date NOT NULL,
+quantity int(11) NOT NULL,
+-- keyword varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+status int(11) DEFAULT NULL,  
+PRIMARY KEY (id_product),
+FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
+
+-- drop table discount_product;
+
+insert into discount_product values
+(1,'Ba Ba',1,'../img/img-product/baba.jpg','',120000,100000,'2020-1-21',20,1),
+(2,'Ga Luoc',1,'../img/img-product/galuoc.png','',200000,150000,'2020-03-05',23,1),
+(3,'Cua Hoang De',1,'../img/img-product/cuahoangde.jpg','',200000,150000,'2020-03-05',23,1),
+(4,'Ca Mú Hấp',1,'../img/img-product/camuhap.jpg','',1000000,700000,'2020-05-11',20,1),
+(5,'Cá',2,'../img/img-product/honhop.jpg','',200000,100000,'2020-05-12',20,1),
+(6,'Ga Nuong',1,'../img/img-product/ganuong.jpg','',600000,500000,'2020-05-14',40,1);
 
 -- -----------------------------
 -- table for rooms:
 -- -----------------------------
-
-CREATE TABLE if not exists rooms(
-id int(11) NOT NULL AUTO_INCREMENT,
+drop table if exists room_restaurant;
+CREATE TABLE room_restaurant(
+id_room int NOT NULL AUTO_INCREMENT primary key,
 name_room varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 category_id int(11) NOT NULL,
 image_room varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -270,65 +211,77 @@ price float NOT NULL,
 created_day date NOT NULL,
 quantity_person int(11) NOT NULL,
 status int(11) DEFAULT NULL,
-PRIMARY KEY (id),
-FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate 	)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
-INSERT INTO rooms values (1,'room',4,'img/img-room/room1.jpg','',100000,'2020-1-21',20,20),
-(2,'room1',4,'img/img-room/room2.jpg','',100000,'2020-1-21',20,20),
-                            (3,'room2',4,'img/img-room/room3.jpg','',100000,'2020-1-21',20,20),
-                            (4,'room3',4,'img/img-room/room4.jpg','',100000,'2020-1-21',20,20),
-                            (5,'room4',4,'img/img-room/room5.jpg','',100000,'2020-1-21',20,20),
-                            (6,'room5',4,'img/img-room/room6.jpg','',100000,'2020-1-21',20,20);
+FOREIGN KEY (category_id) REFERENCES Product_category(id_prodCate)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
 
-select * from rooms;
+INSERT INTO room_restaurant values (1,'room',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1),
+(2,'room1',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1),
+                            (3,'room2',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1),
+                            (4,'room3',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1),
+                            (5,'room4',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1),
+                            (6,'room5',4,'../img/img-room/room4.jpg','',100000,'2020-1-21',20,1);
 
-
-CREATE TABLE if not exists room_interface(
+select * from room_restaurant;
+CREATE TABLE room_interface(
 id int(11) NOT NULL AUTO_INCREMENT,
 room_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 img_room varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 description text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
-INSERT INTO room_interface values (1,'room','img/img-room/room1.jpg','Good nè'),
-(2,'room1','img/img-room/room2.jpg','Good nè'),
-                            (3,'room2','img/img-room/room3.jpg','Good nè'),
-                            (4,'room3','img/img-room/room4.jpg','Good nè');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34;
+INSERT INTO room_interface values (1,'room','../img/img-room/room1.jpg','Good nè'),
+(2,'room1','../img/img-room/room2.jpg','Good nè'),
+                            (3,'room2','../img/img-room/room3.jpg','Good nè'),
+                            (4,'room3','../img/img-room/room4.jpg','Good nè');
                            
 
 select * from room_interface;
+drop table if exists orders;
+CREATE TABLE orders (
+    id_order INT PRIMARY KEY,
+    id_user INT,
+    total_money DECIMAL(10 , 2),
+    id_product int,
+	id_room int,
+     FOREIGN KEY (id_product) REFERENCES product(id_newProd),
+       FOREIGN KEY (id_product) REFERENCES discount_product(id_product),
+       FOREIGN KEY (id_user) REFERENCES users(id_user),
+  FOREIGN KEY (id_room) REFERENCES room_restaurant(id_room)
+);
 
+-- tạo bảng giỏ hàng
+create table carts(
+id_cart int auto_increment primary key,
+    total decimal(10,2) not null,
+    date_time datetime, -- địa chỉ giao hàng
+    id_order int,
+	id_dis_prod INT,
+    id_newProd int,
+    id_room int,
+	foreign key (id_order) references orders(id_order),
+    FOREIGN KEY (id_newProd) REFERENCES product(id_newProd),
+    FOREIGN KEY (id_dis_prod) REFERENCES discount_product(id_product),
+	FOREIGN KEY (id_room) REFERENCES room_restaurant(id_room)
+);  
 
+-- Tạo bảng hóa đơn
+create table bills(
+	id_bill int primary key auto_increment,
+    id_employ int,
+    id_user int,
+    id_carts int, -- id giỏ hàng
+    total DECIMAL(10 , 2 ),
+	id_dis_prod INT,
+    id_newProd int,
+    id_room int,
+    foreign key (id_employ) references employees(id_employeer),
+    foreign key (id_user) references users(id_user),
+    foreign key (id_carts) references carts(id_cart),
+    FOREIGN KEY (id_newProd) REFERENCES product(id_newProd),
+    FOREIGN KEY (id_dis_prod) REFERENCES discount_product(id_product),
+	FOREIGN KEY (id_room) REFERENCES room_restaurant(id_room)
 
-
--- -----------------------------
--- table for bills:
--- -----------------------------
-
--- CREATE TABLE Bills (
---     id_bill INT PRIMARY KEY,
---     id_users INT,
---     Date_of_payment DATE, -- ngày thanh toán
---     total_money DECIMAL(10 , 2 ),
---     id_prod INT,
---     FOREIGN KEY (id_users)
--- REFERENCES users (id_user),
---     FOREIGN KEY (id_prod)
---         REFERENCES products (id_prod)
--- );
--- insert into Bills values (001,105,'2020-01-15',10000000,1010),
--- (002,100,'2020-05-22',14000000,1015),
---                             (003,101,'2020-03-06',20000,1014),
---                             (004,103,'2020-01-15',150000,1010),
---                             (005,102,'2020-01-15',700000,1018),
---                             (006,104,'2020-01-15',500000,1016),
--- (007,109,'2020-01-15',14000000,1012),
---                             (008,107,'2020-01-15',500000,1011),
---                             (009,108,'2020-01-15',600000,1019);
-
-
-
-
+);  
 
 
 /* Đồ án học kì 2*/
@@ -539,4 +492,5 @@ select * from room_interface;
 -- DROP INDEX name_shipper;
 
 -- CREATE FULLTEXT INDEX index_shippers ON shippers(name_shipper);
--- Select * from shippers where match(name_shipper) against("Chu" in natural language mode);  .
+-- Select * from shippers where match(name_shipper) against("Chu" in natural language mode);
+

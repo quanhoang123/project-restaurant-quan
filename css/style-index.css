@@ -699,7 +699,7 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: rgba(231, 91, 30, 0.5);
+    /* background: rgba(231, 91, 30, 0.5); */
     top: 0px;
     left: 0px;
 }
@@ -1083,9 +1083,7 @@ body {
     top: -40px;
     padding: 5px 25px;
     background-color: rgba(0, 0, 0, 0.5);
-    color: #fff; 
-   
-
+    color: #fff;
 }
 
 .foot button {
@@ -1100,6 +1098,7 @@ body {
     line-height: 20px;
     color: #fff;
 }
+
 .gal-container .description h5 {
     margin: 0px;
     font-size: 25px;
@@ -1108,6 +1107,7 @@ body {
     color: #fff;
     /* text-align: right; */
 }
+
 .gal-container .modal.fade .modal-dialog {
     -webkit-transform: scale(0.1);
     -moz-transform: scale(0.1);
@@ -1136,7 +1136,7 @@ body {
 -------------------------------------------------------------------*/
 
 .blog-main {
-    background: url(../images/blog_bg.jpg) no-repeat center;
+    background: url(../img/interface/backgroundheader.jpg) no-repeat center;
     background-attachment: fixed;
     background-size: cover;
     position: relative;

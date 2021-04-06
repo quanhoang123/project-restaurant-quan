@@ -4,7 +4,7 @@ class database
     private $db_server = "localhost";
     private $db_username = "root";
     private $db_password = "";
-    private $db_data = "RESTAURANT_PROJECT";
+    private $db_data = "group_restaurant";
     public $conn = "";
     //connect database
     public function connect()
