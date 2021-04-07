@@ -1,5 +1,6 @@
 <?php
     use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
 
     if (isset($_POST['form_name']) && isset($_POST['email'])) {
         $name = $_POST['form_name'];
@@ -17,8 +18,8 @@
         $mail->isSMTP();
         $mail->Host = "smtp.gmail.com";
         $mail->SMTPAuth = true;
-        $mail->Username = "trunghoangquan@gmail.com";
-        $mail->Password = 'q!uan0701';
+        $mail->Username = "quan.hoang22@student.passerellesnumeriques.org";
+        $mail->Password = 'quanhoang123';
         $mail->Port = 465;//465; //587
         $mail->SMTPSecure = "ssl"; //tls
 

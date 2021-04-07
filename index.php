@@ -4,7 +4,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
     $id = $_POST["add-to-cart"];
     header("location:carts/cart.php?id=" . $id);
 }
- 
+
 
 ?>
 
@@ -37,8 +37,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- <script src="js/bootstrap.min.js"></script> -->
-    <script src="js/login.js"></script>
-    <script src="js/signup.js"></script>
+
 </head>
 
 <style>
@@ -82,14 +81,14 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <li><a href="#footer">Contact us</a></li>
                                     <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
                                     <?php
-                                        if (!empty($_SESSION['book_table'])) {
-                                            $cart_count = count(array_keys($_SESSION['book_table']));
+                                    if (!empty($_SESSION['book_table'])) {
+                                        $cart_count = count(array_keys($_SESSION['book_table']));
                                     ?>
-                                    <li> <a href="#" class="btn cart" ><i class="fa fa-shopping-cart"></i><span><?php echo $cart_count;?></span></a></li>
-                                     <?php
+                                        <li> <a href="#" class="btn cart"><i class="fa fa-shopping-cart"></i><span><?php echo $cart_count; ?></span></a></li>
+                                    <?php
                                     }
-                                    ?>       
-                                
+                                    ?>
+
                                 </ul>
                             </div>
                         </nav>
@@ -124,25 +123,75 @@ if (array_key_exists('add-to-cart', $_POST)) {
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="index.html">
-                            <img src="" alt="Logo" width="50%">
+                            <img src="img/interface/anh.jpg" alt="Logo" width="50%">
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6">
+
                     <div class="search">
-                        <input type="text" placeholder="Search">
-                        <button><i class="fa fa-search"></i></button>
+                        <form action="" method="get">
+                            <input type="text " name="search" placeholder="Search">
+                            <button name="ok"><i class="fa fa-search"></i></button>
+                        </form>
                     </div>
+
                 </div>
+
+              
                 <?php
-             
+                // Nếu người dùng submit form thì thực hiện
+                if (isset($_REQUEST['ok'])) {
+                    // Gán hàm addslashes để chống sql injection
+                    $search = addslashes($_GET['search']);
+
+                    // Nếu $search rỗng thì báo lỗi, tức là người dùng chưa nhập liệu mà đã nhấn submit.
+                    if (empty($search)) {
+                        echo "Yeu cau nhap du lieu vao o trong";
+                    } else {
+                        // Dùng câu lênh like trong sql và sứ dụng toán tử % của php để tìm kiếm dữ liệu chính xác hơn.
+                        $query = "select * from product where name_newProd like '%$search%'";
+
+                        $con = mysqli_connect("localhost", "root", "", "group_restaurant");
+
+                        // Thực thi câu truy vấn
+                        $sql = mysqli_query($con, $query);
+
+                        // Đếm số đong trả về trong sql.
+                        $num=mysqli_num_rows($sql);
+
+
+
+                        // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
+                        if (mysqli_num_rows($sql) > 0 && $search != "") {
+                            // Dùng $num để đếm số dòng trả về.
+                            echo "$num ket qua tra ve voi tu khoa <b>$search</b>";
+
+                            // Vòng lặp while & mysql_fetch_assoc dùng để lấy toàn bộ dữ liệu có trong table và trả về dữ liệu ở dạng array.
+                            echo '<table border="1" cellspacing="0" cellpadding="10">';
+
+                            while ($row = mysqli_fetch_assoc($sql)) {
+                                echo '<tr>';
+                                echo "<td>{$row['id_newProd']}</td>";
+                                // echo "<td><img src=' " . $row[''] . "'>";
+                                echo "<td>{$row['name_newProd']}</td>";
+                                echo '</tr>';
+                            }
+                            echo '</table>';
+                        } else {
+                            echo "Khong tim thay ket qua!";
+                        }
+                    }
+                }
+   
                 ?>
+                
             </div>
         </div>
     </div>
     <!-- Bottom Bar End -->
 
-
+<br><br><br><br><br><br>
     <!-- div about us -->
     <div id="about" class="about-main pad-top-100 pad-bottom-100">
         <div class="container">
@@ -201,9 +250,9 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                                 <div class="dit-line">Anh di đêm anh sợ nha đừng để anh đi đêm nhé em.</div>
                                                 <div class="cart" style="float:left border-radius=24px">
                                                     <form action='' method="post">
-                                                        
+
                                                         <button href="#" style="color:black"><i class="fa fa-heart"></i></button>
-                                                        <button  name="add-to-cart" value="<?php echo $product['id_newProd'] ?>" style="color:black"><i class="fa fa-shopping-cart"></i></button>
+                                                        <button name="add-to-cart" value="<?php echo $product['id_newProd'] ?>" style="color:black"><i class="fa fa-shopping-cart"></i></button>
                                                     </form>
 
                                                 </div>
@@ -447,10 +496,10 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                                     <h5 id='price' class="col-md-3"></h5>
                                                 </div>
                                                 <div class="modal-footer foot" style="float:left">
-                                                <form action='' method="post">
-                                                    <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
-                                                    <button href=""><i class="fa fa-heart"></i></button>
-                                                </form>
+                                                    <form action='' method="post">
+                                                        <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
+                                                        <button href=""><i class="fa fa-heart"></i></button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -500,15 +549,15 @@ if (array_key_exists('add-to-cart', $_POST)) {
                         <h4 class="form-title">BOOKING FORM</h4>
                         <p>Xin mời quý khách </p>
 
-                        <form id="contact-form" method="post" class="reservations-box" name="contactform" action="mail.php">
+                        <form id="contact-form" method="post" class="reservations-box" name="contactform" action="sendemail_auto/mail.php">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
-                                    <input type="text" name="form_name" id="form_name" placeholder="Name" required="required" data-error="Firstname is required.">
+                                    <input type="text" name="form_name" id="form_name" placeholder="Name"  data-error="Firstname is required.">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
-                                    <input type="email" name="email" id="email" placeholder="E-Mail ID" required="required" data-error="E-mail id is required.">
+                                    <input type="email" name="email" id="email" placeholder="E-Mail ID"  data-error="E-mail id is required.">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -518,18 +567,18 @@ if (array_key_exists('add-to-cart', $_POST)) {
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
-                                    <input type="text" name="no_of_persons" id="no_of_persons" placeholder="No_of_p" required="required" />
+                                    <input type="text" name="no_of_persons" id="no_of_persons" placeholder="No_of_p"  />
 
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
-                                    <input type="text" name="date-picker" id="date-picker" placeholder="Date" required="required" data-error="Date is required." />
+                                    <input type="text" name="date-picker" id="date-picker" placeholder="Date"  data-error="Date is required." />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
-                                    <input type="text" name="time-picker" id="time-picker" placeholder="Time" required="required" data-error="Time is required." />
+                                    <input type="text" name="time-picker" id="time-picker" placeholder="Time"  data-error="Time is required." />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -553,10 +602,14 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="reserve-book-btn text-center">
-                                    <button class="hvr-underline-from-center" type="submit" id="submit">BOOK MY TABLE </button>
-                                </div>
+                               
+                               
                             </div>
+                            <form action="sendemail_auto/mail.php" method="post">
+                                <div class="reserve-book-btn text-center">
+                                    <button class="hvr-underline-from-center" name="sub" type="submit" id="submit">BOOK MY TABLE </button>
+                                </div>
+                                </form>
                         </form>
 
                     </div>
@@ -593,7 +646,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                     <div class="footer-in-main">
                         <div class="footer-logo">
                             <div class="text-center">
-                            <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
@@ -664,7 +717,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                 </ul>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

@@ -17,6 +17,7 @@ class database
         }
     }
 
+        
     // close database
     public function dis_connect()
     {
@@ -73,6 +74,7 @@ class database
             // Free result set
             mysqli_free_result($result);
         }
+        $this->dis_connect();
     }
     public function select($sql)
     {

@@ -5,8 +5,12 @@ use group_restaurant;
 -- -----------------------------
 -- table for image:
 -- -----------------------------
+-- mk
+ -- htqsrivbcbqbikoz
 
+ -- qAD8LIxKB#78Roo3O!G5
 
+ -- 6*ko)LJg4~6*FBQV
 Create table  image_member(
 id INT(11) NOT NULL auto_increment primary key,
 name_mem varchar(255) default null,
