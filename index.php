@@ -1,47 +1,10 @@
 <?php
 
-
 if (array_key_exists('add-to-cart', $_POST)) {
     $id = $_POST["add-to-cart"];
     header("location:carts/cart.php?id=" . $id);
 }
-    session_start();
-	$status = "";
-	if (isset($_POST['idd']) && $_POST['idd'] != "") {
-		$idd = $_POST['idd'];
-		$result = mysqli_query($con, "SELECT * FROM `product` WHERE `id_newProd`='$idd'");
-		$row = mysqli_fetch_assoc($result);
-		$name = $row['name'];
-		$idd = $row['idd'];
-		$price = $row['price'];
-		$image = $row['image'];
-
-		$cartArray = array(
-			$idd => array(
-				'name_newProd' => $name,
-				'id_newProd' => $idd,
-				'price' => $price,
-				'quantity' => 1,
-				'image' => $image
-			)
-		);
-
-		if (empty($_SESSION["book_table"])) {
-			$_SESSION["book_table"] = $cartArray;
-			$status = "<div class='box'>Product is added to your cart!</div>";
-		} else {
-			$array_keys = array_keys($_SESSION["book_table"]);
-			if (in_array($idd, $array_keys)) {
-				$status = "<div class='box' style='color:red;'>
-			Product is already added to your cart!</div>";
-			} else {
-				$_SESSION["book_table"] = array_merge($_SESSION["book_table"], $cartArray);
-				$status = "<div class='box'>Product is added to your cart!</div>";
-			}
-		}
-	}
-
-
+ 
 
 ?>
 
@@ -260,7 +223,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
         </div>
     </div>
     <!-- END special-menu -->
-
     <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
         <div class="container">
             <div class="row">
@@ -485,8 +447,10 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                                     <h5 id='price' class="col-md-3"></h5>
                                                 </div>
                                                 <div class="modal-footer foot" style="float:left">
-                                                    <button><i class="fa fa-shopping-cart"></i></button>
+                                                <form action='' method="post">
+                                                    <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
                                                     <button href=""><i class="fa fa-heart"></i></button>
+                                                </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -510,25 +474,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
                         Our Blog
                     </h2>
                     <div class="blog-box clearfix">
-
-                        <!-- <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="blog-block">
-                                    <div class="blog-img-box">
-                                        <img src="" alt="" />
-                                        <div class="overlay">
-                                            <a href=""><i class="fa fa-link" aria-hidden="true"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="blog-dit">
-                                        <p><span></span></p>
-                                        <h2></h2>
-                                        <h5></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                         -->
                     </div>
                     <!-- end blog-box -->
                     <div class="blog-btn-v">
@@ -648,8 +593,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                     <div class="footer-in-main">
                         <div class="footer-logo">
                             <div class="text-center">
-                                <!-- logo    -->
-                                <img src="img/images_content/" alt="" />
+                            <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
@@ -708,7 +652,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
                         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                             <div class="footer-box-d">
                                 <h3>Opening Hours</h3>
-
                                 <ul>
                                     <li>
                                         <p>Thứ 2 - Thứ 6 </p>
@@ -721,6 +664,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                 </ul>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

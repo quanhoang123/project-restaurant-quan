@@ -28,14 +28,14 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
 <html>
 
 <head>
-  <title>Demo Shopping Cart - AllPHPTricks.com</title>
+  <title> Book now </title>
   <link rel='stylesheet' href='style.css' type='text/css' media='all' />
 </head>
 
 <body>
   <div style="width:700px; margin:50 auto;">
 
-    <h2>Demo Shopping Cart</h2>
+    <h2>Book now</h2>
 
     <?php
     if (!empty($_SESSION["book_table"])) {
