@@ -755,7 +755,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
             </div>
         </div>
     </div>
-
+<br><br>
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">
             <div class="container">

@@ -2,7 +2,7 @@
     <body>
     <?php
     session_start();
-    require_once 'connect.php';
+    require_once '../modal/connect.php';
     use PHPMailer\PHPMailer\PHPMailer;
         ini_set("display_errors",0);
 
@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
         $mail->setFrom(SMTP_UNAME,'RESTAURANT SHOP');
         $mail->addAddress($email);
         $mail->Subject = ("THANKS YOU SO MUCH");
-        $mail->Body = " <h3> WELCOME TO BONSAI SHOP </h3>";
+        $mail->Body = " <h3> WELCOME TO Book table </h3>";
         
         if ($mail->send()) {
            echo '<script>alert("Book table thannh cong")</script>';
@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
             $status = "failed";
             $response = "Something is wrong: <br><br>" . $mail->ErrorInfo;
         }
-        exit(json_encode(array("status" => $status, "response" => $response)));
+        // exit(json_encode(array("status" => $status, "response" => $response)));
     }
     ?>
 
