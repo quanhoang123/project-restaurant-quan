@@ -184,7 +184,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
     .booking-form .form-btn {
         margin-top: 27px;
     }
- 
 </style>
 
 <body>
@@ -216,7 +215,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <li><a href="#menu">Menu</a></li>
                                     <li><a href="#our_team">Team</a></li>
                                     <li><a href="#product">Product</a></li>
-                                    <li><a href="#reservation" >Book Table</a></li>
+                                    <li><a href="#reservation">Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
                                     <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
                                     <?php
@@ -247,8 +246,8 @@ if (array_key_exists('add-to-cart', $_POST)) {
                             <h2>Restaurant </h2>
                             <p>Hãy tin tưởng lựa chọn điểm đến mỗi ngày để có một bữa ăn ấm áp nhé</p>
                             <div class="book-btn">
-                                <a  class="table-btn hvr-underline-from-center" type="submit" name="submit" data-toggle="modal" data-target="#modal_booking">BOOK MY TABLE </a>
-                                
+                                <a class="table-btn hvr-underline-from-center" type="submit" name="submit" data-toggle="modal" data-target="#modal_booking">BOOK MY TABLE </a>
+
                             </div>
                         </div>
                     </div>
@@ -291,12 +290,31 @@ if (array_key_exists('add-to-cart', $_POST)) {
         </div>
     </div>
     <!-- Bottom Bar End -->
-   
+    <div class="modal fade" id="modal_search" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-body">
+                    <img id='id' alt="" width="100px" height="100px;  " />
+                </div>
+                <div class="col-md-12 description">
+                    <h4 id='name_product' class="col-md-9"></h4>
+                    <h5 id='price' class="col-md-3"></h5>
+                </div>
+                <div class="modal-footer foot" style="float:left">
+                    <form action='' method="post">
+                        <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
+                        <button href=""><i class="fa fa-heart"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade container-fluid" id="modal_booking" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content container">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">×</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <div class="modal-body">
                     <h2 class="block-title text-center">
                         Đăt trước với chúng tôi
@@ -308,7 +326,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <div class="row">
                                         <div class="booking-form">
                                             <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                                                
+
                                             </div>
                                             <h4 class="form-title">BOOKING FORM</h4>
                                             <p>Xin mời quý khách </p>
@@ -526,8 +544,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                             </div>
                         </div>
                         <div class="slider slider-single">
-                            <!-- Tab pen product  -->
-                            <!-- tab product wedding -->
+
                             <div>
                                 <?php
                                 require_once "modal/connect.php";
@@ -736,7 +753,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
         </div>
     </div>
 
-
     <div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
         <div class="container">
             <div class="row">
@@ -755,7 +771,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
             </div>
         </div>
     </div>
-<br><br>
+    <br><br>
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">
             <div class="container">

@@ -130,6 +130,7 @@ class database
 
                     // Vòng lặp while & mysql_fetch_assoc dùng để lấy toàn bộ dữ liệu có trong table và trả về dữ liệu ở dạng array.
                     while ($row = mysqli_fetch_assoc($sql)) {
+                        
                         echo "<div class='modal fade' id='modal_search' tabindex='-1' role='dialog'>";
                         echo "<div class='modal-content'>";
                                 echo "<div class='modal-content'>";
