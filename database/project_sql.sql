@@ -38,25 +38,11 @@ note varchar(255) default null
 -- -----------------------------
 -- table for admin:
 -- -----------------------------
-CREATE TABLE  Register (
-id_user int primary key auto_increment,
-    fullname varchar(60),
-    user_name varchar(255),
-    password1 char(11),
-    avatar varchar(255),
-    role varchar(255),
-    gender char(5),
-    email varchar(50),
-    phone char(11),
-    status int(11) not null default '0',
-    address varchar(100)
-)ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
 
 
 create table employees(
-id_employeer int primary key auto_increment,
-name_employeer varchar(60),
+    id_employeer int primary key auto_increment,
+    name_employeer varchar(60),
     gender varchar(5),
     address varchar(100),
     phone varchar(11),
@@ -74,7 +60,7 @@ create table if not exists users(
     fullname varchar(60),
     user_name varchar(255),
     password char(11),
-    avatar varchar(255),
+   
     gender char(5),
     role varchar(255),    
     email varchar(50),
@@ -82,12 +68,12 @@ create table if not exists users(
     status int(11) not null default '0',
     address varchar(100)
 );
-insert into users(fullname,user_name,`password`,avatar,gender,`role`,email,phone,`status`,address) 
+insert into users(fullname,user_name,`password`,gender,`role`,email,phone,`status`,address) 
 values
-	('hung vuong','vuong1',123,'','nam','user','jojo@gmail.com',0121212,1,'Hung-Vuong'),
-	('Trung Quan','vuong123',123,'','nam','admin','quanhuhoq111@gmail.com',0121212,1,'Hung-Vuong'),
-    ('Thi Diem','diem',123,'','nu','admin','diemthi@gmail.com',0121212,1,'Hung-Vuong'),
-    ('ngoc vi','vi',123,'','nam','admin','jojo@gmail.com',0121212,1,'Hung-Vuong');
+	('hung vuong','vuong1',123,'nam','user','jojo@gmail.com',0121212,1,'Hung-Vuong'),
+	('Trung Quan','vuong123',123,'nam','admin','quanhuhoq111@gmail.com',0121212,1,'Hung-Vuong'),
+    ('Thi Diem','diem',123,'nu','admin','diemthi@gmail.com',0121212,1,'Hung-Vuong'),
+    ('ngoc vi','vi',123,'nam','admin','jojo@gmail.com',0121212,1,'Hung-Vuong');
 select * from users;
 
 

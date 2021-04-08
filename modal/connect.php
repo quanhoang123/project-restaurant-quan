@@ -140,7 +140,35 @@ class database
                 }
             }
         }
+    }
+    public function searchProd(){
+        
+                // Nếu người dùng submit form thì thực hiện
+                if (isset($_REQUEST['ok'])) {
+                    // Gán hàm addslashes để chống sql injection
+                    $search = addslashes($_GET['search']);
+                    // Nếu $search rỗng thì báo lỗi, tức là người dùng chưa nhập liệu mà đã nhấn submit.
+                    if (empty($search)) {
+                        echo "Yeu cau nhap du lieu vao o trong";
+                    } else {
+                        // Dùng câu lênh like trong sql và sứ dụng toán tử % của php để tìm kiếm dữ liệu chính xác hơn.
+                        $query = "select * from product where name_newProd like '%$search%'";
+                        $con = mysqli_connect("localhost", "root", "", "group_restaurant");
+                        // Thực thi câu truy vấn
+                        $sql = mysqli_query($con, $query);
+                        // Đếm số đong trả về trong sql.
+                        $num = mysqli_num_rows($sql);
 
+
+                        // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
+                        if (mysqli_num_rows($sql) > 0 && $search != "") {
+                           
+                            echo "<script> alert('The result returns $num rows of data with name is $search')</script>";
+                        } else {
+                            echo "Khong tim thay ket qua!";
+                        }
+                    }
+                }
     }
 
 }
