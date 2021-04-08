@@ -41,8 +41,150 @@ if (array_key_exists('add-to-cart', $_POST)) {
 </head>
 
 <style>
-  
+    #booking {
+        font-family: 'PT Sans', sans-serif;
+        background-image: url(img/interface/booking.jpg);
+        background-size: cover;
+        background-position: center;
+    }
 
+    .booking-form .form-label {
+        display: block;
+        margin-left: 20px;
+        margin-bottom: 5px;
+        font-weight: 400;
+        text-transform: uppercase;
+        line-height: 24px;
+        height: 24px;
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .booking-form {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 40px;
+        border-radius: 6px;
+        width: 1100px;
+
+    }
+
+    .booking-form .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .booking-form .form-control {
+        background-color: #fff;
+        height: 50px;
+        color: #191a1e;
+        border: none;
+        font-size: 16px;
+        font-weight: 400;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 40px;
+        padding: 0px 25px;
+    }
+
+    .booking-form .form-control::-webkit-input-placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form .form-control:-ms-input-placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form .form-control::placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form input[type="date"].form-control:invalid {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .booking-form select.form-control+.select-arrow {
+        position: absolute;
+        right: 10px;
+        bottom: 6px;
+        width: 32px;
+        line-height: 32px;
+        height: 32px;
+        text-align: center;
+        pointer-events: none;
+        color: rgba(0, 0, 0, 0.3);
+        font-size: 14px;
+    }
+
+    .booking-form select.form-control+.select-arrow:after {
+        content: '\279C';
+        display: block;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .booking-form .form-checkbox input {
+        position: absolute !important;
+        margin-left: -9999px !important;
+        visibility: hidden !important;
+    }
+
+    .booking-form .form-checkbox label {
+        position: relative;
+        padding-top: 4px;
+        padding-left: 30px;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    .booking-form .form-checkbox label+label {
+        margin-left: 15px;
+    }
+
+    .booking-form .form-checkbox input+span {
+        position: absolute;
+        left: 2px;
+        top: 4px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+    }
+
+    .booking-form .form-checkbox input+span:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0px;
+        height: 0px;
+        border-radius: 50%;
+        background-color: #f23e3e;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .booking-form .form-checkbox input:not(:checked)+span:after {
+        opacity: 0;
+    }
+
+    .booking-form .form-checkbox input:checked+span:after {
+        opacity: 1;
+        width: 10px;
+        height: 10px;
+    }
+
+    .booking-form .form-btn {
+        margin-top: 27px;
+    }
+ 
 </style>
 
 <body>
@@ -74,7 +216,7 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <li><a href="#menu">Menu</a></li>
                                     <li><a href="#our_team">Team</a></li>
                                     <li><a href="#product">Product</a></li>
-                                    <li><a href="#reservation">Book Table</a></li>
+                                    <li><a href="#reservation" >Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
                                     <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
                                     <?php
@@ -105,7 +247,8 @@ if (array_key_exists('add-to-cart', $_POST)) {
                             <h2>Restaurant </h2>
                             <p>Hãy tin tưởng lựa chọn điểm đến mỗi ngày để có một bữa ăn ấm áp nhé</p>
                             <div class="book-btn">
-                                <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
+                                <a  class="table-btn hvr-underline-from-center" type="submit" name="submit" data-toggle="modal" data-target="#modal_booking">BOOK MY TABLE </a>
+                                
                             </div>
                         </div>
                     </div>
@@ -131,60 +274,148 @@ if (array_key_exists('add-to-cart', $_POST)) {
                             <button name="ok"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
-                </div>              
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-9">
                 <?php
-
-                // Nếu người dùng submit form thì thực hiện
-                if (isset($_REQUEST['ok'])) {
-                    // Gán hàm addslashes để chống sql injection
-                    $search = addslashes($_GET['search']);
-                    // Nếu $search rỗng thì báo lỗi, tức là người dùng chưa nhập liệu mà đã nhấn submit.
-                    if (empty($search)) {
-                        echo "Yeu cau nhap du lieu vao o trong";
-                    } else {
-                        // Dùng câu lênh like trong sql và sứ dụng toán tử % của php để tìm kiếm dữ liệu chính xác hơn.
-                        $query = "select * from product where name_newProd like '%$search%'";
-
-                        $con = mysqli_connect("localhost", "root", "", "group_restaurant");
-
-                        // Thực thi câu truy vấn
-                        $sql = mysqli_query($con, $query);
-
-                        // Đếm số đong trả về trong sql.
-                        $num=mysqli_num_rows($sql);
-
-
-
-                        // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
-                        if (mysqli_num_rows($sql) > 0 && $search != "") {
-                            // Dùng $num để đếm số dòng trả về.
-                            echo "$num ket qua tra ve voi tu khoa <b>$search</b>";
-
-                            // Vòng lặp while & mysql_fetch_assoc dùng để lấy toàn bộ dữ liệu có trong table và trả về dữ liệu ở dạng array.
-                            echo '<table border="1" cellspacing="0" cellpadding="10">';
-
-                            while ($row = mysqli_fetch_assoc($sql)) {
-                                echo '<tr>';
-                                echo "<td>{$row['id_newProd']}</td>";
-                                // echo "<td><img src=' " . $row[''] . "'>";
-                                echo "<td>{$row['name_newProd']}</td>";
-                                echo '</tr>';
-                            }
-                            echo '</table>';
-                        } else {
-                            echo "Khong tim thay ket qua!";
-                        }
-                    }
-                }
-   
+                require_once "modal/connect.php";
+                $dt = new database();
+                $dt->connect();
+                // select du lieu truy van la new prod
+                $dt->searchProdById();
                 ?>
-                
             </div>
         </div>
     </div>
     <!-- Bottom Bar End -->
+   
 
-<br><br><br><br><br><br>
+    <div class="modal fade container-fluid" id="modal_booking" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content container">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">×</span></button>
+                <div class="modal-body">
+                    <h2 class="block-title text-center">
+                        Đăt trước với chúng tôi
+                    </h2>
+                    <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
+                        <div id="booking" class="section">
+                            <div class="section-center">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="booking-form">
+                                            <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                                                
+                                            </div>
+                                            <h4 class="form-title">BOOKING FORM</h4>
+                                            <p>Xin mời quý khách </p>
+                                            <form role="form" method="post" action="Email/phpsentmail.php">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Select rooms</span>
+                                                            <input class="form-control" type="text" placeholder="Choose room">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Select foods</span>
+                                                            <input class="form-control" type="email" name="email" type="text" placeholder="Choose food">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Check in</span>
+                                                            <input class="form-control" type="date" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Check out</span>
+                                                            <input class="form-control" type="date" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Adults (18+)</span>
+                                                            <select class="form-control">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                            </select>
+                                                            <span class="select-arrow"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Children (0-17)</span>
+                                                            <select class="form-control">
+                                                                <option>0</option>
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                            </select>
+                                                            <span class="select-arrow"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Table type</span>
+                                                            <select class="form-control">
+                                                                <option>Economy type</option>
+                                                                <option>Business type</option>
+                                                                <option>First type</option>
+                                                            </select>
+                                                            <span class="select-arrow"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span class="form-label">Time</span>
+                                                        <div class="form-group">
+                                                            <input class="form-control" type="text" name="time-picker" id="time-picker" placeholder="Time" data-error="Time is required." />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <span class="form-label">Type</span>
+                                                            <select name="event" class="form-control ">
+                                                                <option selected disabled>Event</option>
+                                                                <option>Cưới</option>
+                                                                <option>Sinh nhật</option>
+                                                                <option>Ngày kỉ niệm</option>
+                                                            </select>
+                                                            <span class="select-arrow"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="reserve-book-btn text-center">
+                                                    <button class="hvr-underline-from-center " type="submit" name="submit">BOOK MY TABLE </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer foot" style="float:left">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br><br>
     <!-- div about us -->
     <div id="about" class="about-main pad-top-100 pad-bottom-100">
         <div class="container">
@@ -243,7 +474,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                                 <div class="dit-line">Anh di đêm anh sợ nha đừng để anh đi đêm nhé em.</div>
                                                 <div class="cart" style="float:left border-radius=24px">
                                                     <form action='' method="post">
-
                                                         <button href="#" style="color:black"><i class="fa fa-heart"></i></button>
                                                         <button name="add-to-cart" value="<?php echo $product['id_newProd'] ?>" style="color:black"><i class="fa fa-shopping-cart"></i></button>
                                                     </form>
@@ -280,19 +510,19 @@ if (array_key_exists('add-to-cart', $_POST)) {
 
                             <div class="tab-title-menu">
                                 <h2>Break Fast</h2>
-                               
+
                             </div>
                             <div class="tab-title-menu">
                                 <h2>Wedding</h2>
-                               
+
                             </div>
                             <div class="tab-title-menu">
                                 <h2>Wedding</h2>
-                              
+
                             </div>
                             <div class="tab-title-menu">
                                 <h2>DRINKS</h2>
-                                
+
                             </div>
                         </div>
                         <div class="slider slider-single">
@@ -525,120 +755,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
             </div>
         </div>
     </div>
-
-
-
-    <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
-        <div id="booking" class="section">
-        <div class="section-center">
-            <div class="container">
-                <div class="row">
-                    <div class="booking-form">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <h2 class="block-title text-center">
-                                Đăt trước với chúng tôi
-                            </h2>
-                        </div>
-                        <h4 class="form-title">BOOKING FORM</h4>
-                        <p>Xin mời quý khách </p>
-                        <form method="post" action="#">
-                         
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <span class="form-label">Select rooms</span>
-                                        <input class="form-control" type="text" placeholder="Choose room">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <span class="form-label">Select foods</span>
-                                        <input class="form-control" type="text" placeholder="Choose food">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <span class="form-label">Check in</span>
-                                        <input class="form-control" type="date" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <span class="form-label">Check out</span>
-                                        <input class="form-control" type="date" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <span class="form-label">Adults (18+)</span>
-                                        <select class="form-control">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-										</select>
-                                        <span class="select-arrow"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <span class="form-label">Children (0-17)</span>
-                                        <select class="form-control">
-											<option>0</option>
-											<option>1</option>
-											<option>2</option>
-										</select>
-                                        <span class="select-arrow"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <span class="form-label">Table type</span>
-                                        <select class="form-control">
-											<option>Economy type</option>
-											<option>Business type</option>
-											<option>First type</option>
-										</select>
-                                        <span class="select-arrow"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3"> 
-                                    <span class="form-label">Time</span>
-                                    <div class="form-group">                                     
-                                        <input  class="form-control" type="text" name="time-picker" id="time-picker" placeholder="Time"  data-error="Time is required." />
-                                    </div>                                
-                                </div>
-                                <div class="col-md-3">
-                                <div class="form-group">
-                                        <span class="form-label">Type</span>
-                                        <select name="event" class="form-control ">
-                                            <option selected disabled>Event</option>
-											<option>Cưới</option>
-                                        <option>Sinh nhật</option>
-                                        <option>Ngày kỉ niệm</option>
-										</select>
-                                        <span class="select-arrow"></span>
-                                    </div>
-
-
-                             
-                                </div>
-                              
-                            </div>
-                            <div class="reserve-book-btn text-center">
-                                    <button class="hvr-underline-from-center" name="sub" type="submit" id="submit">BOOK MY TABLE </button>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>                
-    </div>
-
 
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">

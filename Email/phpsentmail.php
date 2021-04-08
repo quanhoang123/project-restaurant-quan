@@ -8,7 +8,6 @@
 
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
-
         require_once "../Email/PHPMailer.php";
         require_once "../Email/Exception.php";
         require_once "../Email/SMTP.php";
@@ -36,9 +35,8 @@ if (isset($_POST['submit'])) {
         $mail->Body = " <h3> WELCOME TO BONSAI SHOP </h3>";
         
         if ($mail->send()) {
-            $status = " ";
-            $response = " ";
-            header("http://localhost/PHP/Search/home.php");
+           echo '<script>alert("Book table thannh cong")</script>';
+           
         } else {
             $status = "failed";
             $response = "Something is wrong: <br><br>" . $mail->ErrorInfo;
