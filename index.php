@@ -7,6 +7,53 @@ if (array_key_exists('add-to-cart', $_POST)) {
 
 
 ?>
+<?php
+session_start();
+$is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthenticated'] : false;
+if ($is_authenticated) {
+    $user = $_SESSION['user'];
+}
+
+if (array_key_exists('add-to-cart', $_POST)) {
+    $id = $_POST["add-to-cart"];
+    header("location:carts/cart.php?id=" . $id);
+}
+
+$status = "";
+if (isset($_POST['idd']) && $_POST['idd'] != "") {
+    $idd = $_POST['idd'];
+    $result = mysqli_query($con, "SELECT * FROM `product` WHERE `id_newProd`='$idd'");
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['name'];
+    $idd = $row['idd'];
+    $price = $row['price'];
+    $image = $row['image'];
+
+    $cartArray = array(
+        $idd => array(
+            'name_newProd' => $name,
+            'id_newProd' => $idd,
+            'price' => $price,
+            'quantity' => 1,
+            'image' => $image
+        )
+    );
+
+    if (empty($_SESSION["book_table"])) {
+        $_SESSION["book_table"] = $cartArray;
+        $status = "<div class='box'>Product is added to your cart!</div>";
+    } else {
+        $array_keys = array_keys($_SESSION["book_table"]);
+        if (in_array($idd, $array_keys)) {
+            $status = "<div class='box' style='color:red;'>
+			Product is already added to your cart!</div>";
+        } else {
+            $_SESSION["book_table"] = array_merge($_SESSION["book_table"], $cartArray);
+            $status = "<div class='box'>Product is added to your cart!</div>";
+        }
+    }
+}
+?>
 
 
 <!DOCTYPE html>
@@ -35,7 +82,9 @@ if (array_key_exists('add-to-cart', $_POST)) {
     <script src="js/modernizer.js"></script>
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="js/bootstrap.min.js"></script> -->
 
 </head>
@@ -217,15 +266,22 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <li><a href="#product">Product</a></li>
                                     <li><a href="#reservation">Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
-                                    <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
                                     <?php
-                                    if (!empty($_SESSION['book_table'])) {
-                                        $cart_count = count(array_keys($_SESSION['book_table']));
-                                    ?>
-                                        <li> <a href="#" class="btn cart"><i class="fa fa-shopping-cart"></i><span><?php echo $cart_count; ?></span></a></li>
-                                    <?php
+                                    if ($is_authenticated) {
+                                        echo '
+                                        <li></li>
+                                        <li><a href="modal/logout.php">Logout</a></li>
+                                        ';
+                                    } else {
+                                        echo '
+                                        <li><a data-toggle="modal" data-target="#login" >Login</a></li>
+                                        <li><a data-toggle="modal" data-target="#register" >Register</a></li>
+                                        ';
                                     }
                                     ?>
+                                    <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
+                                    <li> <a href="#" class="btn wishlist"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
+
 
                                 </ul>
                             </div>
@@ -276,19 +332,150 @@ if (array_key_exists('add-to-cart', $_POST)) {
                 </div>
             </div>
             <div class="col-md-3">
-
             </div>
             <div class="col-md-9">
                 <?php
-                require_once "modal/connect.php";
-                $dt = new database();
-                $dt->connect();
-                // select du lieu truy van la new prod
-                $dt->searchProdById();
+                // Nếu người dùng submit form thì thực hiện
+                if (isset($_REQUEST['ok'])) {
+                    // Gán hàm addslashes để chống sql injection
+                    $search = addslashes($_GET['search']);
+                    // Nếu $search rỗng thì báo lỗi, tức là người dùng chưa nhập liệu mà đã nhấn submit.
+                    if (empty($search)) {
+                        echo "Yeu cau nhap du lieu vao o trong";
+                    } else {
+                        // Dùng câu lênh like trong sql và sứ dụng toán tử % của php để tìm kiếm dữ liệu chính xác hơn.
+                        $query = "select * from product where name_newProd like '%$search%'";
+                        $con = mysqli_connect("localhost", "root", "", "group_restaurant");
+                        // Thực thi câu truy vấn
+                        $sql = mysqli_query($con, $query);
+                        // Đếm số đong trả về trong sql.
+                        $num = mysqli_num_rows($sql);
+
+
+                        // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
+                        if (mysqli_num_rows($sql) > 0 && $search != "") {
+                            // Dùng $num để đếm số dòng trả về.
+                           /// echo "$num ket qua tra ve voi tu khoa <b>$search</b>";
+                            echo "<script> alert('The result returns $num rows of data with name is $search')</script>";
+
+                          
+                            // while ($row = mysqli_fetch_assoc($sql)) {
+                                                                                                    
+                            //    echo "<script> alert('. resuilt is $num have name is: $search.')</script>";
+                                  
+                        // // echo "<div>{$row['name_newProd']}</div>";
+                        //         // echo "<img src=' " . $row['image'] . "'>";
+                        //     }
+                        } else {
+                            echo "Khong tim thay ket qua!";
+                        }
+                    }
+                }
+
                 ?>
+    <!-- Registeration Modal -->
+    <div class="modal fade" id="register">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content form-wrapper">
+                <div class="close-box" data-dismiss="modal">
+                    <i class="fa fa-times fa-2x"></i>
+                </div>
+                <div class="container-fluid mt-5">
+                    <form id="sign-up-form" enctype="multipart/form-data">
+                        <div class="form-group text-center pb-2 ">
+                            <h4>Registration Form</h4>
+                        </div>
+                        <div class="form-group col">
+                            <label for="fullname"> Full Name</label>
+                            <input type="text" name="fullname" class="form-control" placeholder="Thai Tran Hung Vuong" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="username"> User name</label>
+                            <input type="text" name="username" class="form-control" placeholder="Your username" required>
+                        </div>
+                        <div class="form-row mb-1">
+                            <div class="form-group col">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control" placeholder="Your password" autocomplete="new-password" required>
+                            </div>
+                        </div>
+                        <div class="form-group col">
+                            <label for="confirmpassword">Confirm Password</label>
+                            <input type="password" name="confirmpassword" class="form-control" placeholder="Confirmpassword" autocomplete="new-password" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="gender">Gender</label>
+                            <select name="gender">
+                                <option value="Male">Nam</option>
+                                <option value="Female">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="position:relative;">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" class="form-control mb-1" placeholder="Youremail@gmail.com" required>
+                            <a href="#" data-toggle="modal" data-target="#login" style="display:none; position: absolute; right: 0; font-size: 12px;">That's you? Login</a>
+                        </div>
+                        <div class="form-group col">
+                            <label for="phone">Phone</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Your phonenumber" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="Your address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-info form-control" type="submit">Register</button>
+                        </div>
+                </div>
+                <h6>OR Continue with</h6>
+                <a href="#" onclick="switchAuthModal()">Login</a>
+                </form>
             </div>
         </div>
     </div>
+    </div>
+    <!-- Login Modal -->
+    <div class="modal fade" id="login">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content form-wrapper">
+                <div class="close-box" data-dismiss="modal">
+                    <i class="fa fa-times fa-2x"></i>
+                </div>
+                <div class="container-fluid mt-5">
+                    <form id="login-form" enctype="multipart/form-data">
+                        <div class="form-group text-center">
+                            <h4>Login Form</h4>
+                            <h6>Enter your credentials</h6>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="user_name">Username</label>
+                            <input type="text" name="username" class="form-control mb-1" placeholder="Your username" required>
+                        </div>
+                        <div class="form-group pb-3" style="position: relative;">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control mb-1" placeholder="Your password" required>
+                            <a href="#forgotPassword" style="display:block; position: absolute; right: 0;" title="Fill Email Field and Click it">
+                                Forgot Password?
+                            </a>
+                        </div>
+                        <div class="form-group pt-2">
+                            <button class="btn btn-info form-control">Login</button>
+                        </div>
+                        <h6>OR Continue with</h6>
+                        <a href="#" onclick="switchAuthModal()">Sign up</a>
+                        <div class="form-group text-center pt-2 social-login">
+                            <a href="#" class="google"> <i class="fa fa-google-plus fa-lg"></i> </a>
+                            <a href="#" class="facebook"> <i class="fa fa-facebook fa-lg"></i> </a>
+                            <a href="#" class="twitter"> <i class="fa fa-twitter fa-lg"></i> </a>
+                            <a href="#" class="github"> <i class="fa fa-github fa-lg"></i> </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bottom Bar End -->
     <div class="modal fade" id="modal_search" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -326,7 +513,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
                                     <div class="row">
                                         <div class="booking-form">
                                             <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-
                                             </div>
                                             <h4 class="form-title">BOOKING FORM</h4>
                                             <p>Xin mời quý khách </p>
@@ -885,6 +1071,67 @@ if (array_key_exists('add-to-cart', $_POST)) {
     <script src="js/all.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#login-form').submit(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: 'modal/login.php',
+                    data: $(this).serialize(),
+                    success: function(res) {
+                        console.log(res)
+                        if (res) {
+                            const data = JSON.parse(res)
+                            if (!data.isError) {
+                                window.location.href = ""
+                            } else {
+                                alert(data.message);
+                            }
+                        } else {
+                            alert('Something went wrong!')
+                        }
+                    }
+                });
+            });
+            $('#sign-up-form').submit(function(e) {
+                e.preventDefault();
+                const formData = new FormData(this)
+                console.log(formData)
+                $.ajax({
+                    type: "POST",
+                    url: 'modal/signup.php',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        if (res) {
+                            const data = JSON.parse(res)
+                            if (!data.isError) {
+                                window.location.href = ""
+                            } else {
+                                alert(data.message);
+                            }
+                        } else {
+                            alert('Something went wrong sign up !')
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        function switchAuthModal() {
+            var modalLogin = $('#login');
+            var modalSignUp = document.getElementById("register");
+            $('#login').modal("togge");
+            $('#register').modal("toggle");
+        }
+    </script>
+    <!-- modal show detail product -->
     <script>
         const button = document.getElementsByClassName('show');
         console.log(button)

@@ -129,27 +129,10 @@ class database
                     echo "$num ket qua tra ve voi tu khoa <b>$search</b>";
 
                     // Vòng lặp while & mysql_fetch_assoc dùng để lấy toàn bộ dữ liệu có trong table và trả về dữ liệu ở dạng array.
-                    while ($row = mysqli_fetch_assoc($sql)) {
+                    while ($row = mysqli_fetch_assoc($sql)) {  
                         
-                        echo "<div class='modal fade' id='modal_search' tabindex='-1' role='dialog'>";
-                        echo "<div class='modal-content'>";
-                                echo "<div class='modal-content'>";
-                                    echo "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>";
-                                        echo "<div class='modal-body'>
-                                        <img src=' " . $row['image'] . "'>
-                                            </div>
-                                        <div class='col-md-12 description'>
-                                            <h4  class='col-md-9'>.{$row['name_newProd']}.</h4>
-                                            <h5 id='price' class='col-md-3'></h5>
-                                        </div>
-                                        <div class='modal-footer foot' style='float:left'>
-                                            <form action='' method='post'>       
-                                                <button href=''><i class='fa fa-heart'></i></button>
-                                            </form>
-                                        </div>";                                        
-                                echo " </div>";    
-                        echo " </div>";
-                        echo "</div>";
+                        echo "<div>{$row['name_newProd']}</div>";
+                        echo "<img src=' " . $row['image'] . "'>";                      
                     }
                    
                 } else {
