@@ -41,11 +41,8 @@ if (array_key_exists('add-to-cart', $_POST)) {
 </head>
 
 <style>
-    .profile-avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 15px;
-    }
+  
+
 </style>
 
 <body>
@@ -128,23 +125,19 @@ if (array_key_exists('add-to-cart', $_POST)) {
                     </div>
                 </div>
                 <div class="col-md-6">
-
                     <div class="search">
                         <form action="" method="get">
-                            <input type="text " name="search" placeholder="Search">
+                            <input type="text" name="search" placeholder="Search">
                             <button name="ok"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
-
-                </div>
-
-              
+                </div>              
                 <?php
+
                 // Nếu người dùng submit form thì thực hiện
                 if (isset($_REQUEST['ok'])) {
                     // Gán hàm addslashes để chống sql injection
                     $search = addslashes($_GET['search']);
-
                     // Nếu $search rỗng thì báo lỗi, tức là người dùng chưa nhập liệu mà đã nhấn submit.
                     if (empty($search)) {
                         echo "Yeu cau nhap du lieu vao o trong";
@@ -287,19 +280,19 @@ if (array_key_exists('add-to-cart', $_POST)) {
 
                             <div class="tab-title-menu">
                                 <h2>Break Fast</h2>
-                                <p> <i class="flaticon-canape"></i> </p>
+                               
                             </div>
                             <div class="tab-title-menu">
                                 <h2>Wedding</h2>
-                                <p> <i class="flaticon-dinner"></i> </p>
+                               
                             </div>
                             <div class="tab-title-menu">
                                 <h2>Wedding</h2>
-                                <p> <i class="flaticon-desert"></i> </p>
+                              
                             </div>
                             <div class="tab-title-menu">
                                 <h2>DRINKS</h2>
-                                <p> <i class="flaticon-coffee"></i> </p>
+                                
                             </div>
                         </div>
                         <div class="slider slider-single">
@@ -470,7 +463,6 @@ if (array_key_exists('add-to-cart', $_POST)) {
                         <p class="title-caption text-center">Mời các bạn thưởng thức lựa chọn ẩm thực mình muốn </p>
                     </div>
                     <div class="gal-container clearfix">
-
                         <?php
                         require_once "modal/connect.php";
                         $dt = new database();
@@ -537,85 +529,114 @@ if (array_key_exists('add-to-cart', $_POST)) {
 
 
     <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="form-reservations-box">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+        <div id="booking" class="section">
+        <div class="section-center">
+            <div class="container">
+                <div class="row">
+                    <div class="booking-form">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                             <h2 class="block-title text-center">
                                 Đăt trước với chúng tôi
                             </h2>
                         </div>
                         <h4 class="form-title">BOOKING FORM</h4>
                         <p>Xin mời quý khách </p>
-
-                        <form id="contact-form" method="post" class="reservations-box" name="contactform" action="sendemail_auto/mail.php">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="form_name" id="form_name" placeholder="Name"  data-error="Firstname is required.">
+                        <form method="post" action="#">
+                         
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <span class="form-label">Select rooms</span>
+                                        <input class="form-control" type="text" placeholder="Choose room">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <span class="form-label">Select foods</span>
+                                        <input class="form-control" type="text" placeholder="Choose food">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="email" name="email" id="email" placeholder="E-Mail ID"  data-error="E-mail id is required.">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span class="form-label">Check in</span>
+                                        <input class="form-control" type="date" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span class="form-label">Check out</span>
+                                        <input class="form-control" type="date" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <span class="form-label">Adults (18+)</span>
+                                        <select class="form-control">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+										</select>
+                                        <span class="select-arrow"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <span class="form-label">Children (0-17)</span>
+                                        <select class="form-control">
+											<option>0</option>
+											<option>1</option>
+											<option>2</option>
+										</select>
+                                        <span class="select-arrow"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="phone" id="phone" placeholder="contact no.">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <span class="form-label">Table type</span>
+                                        <select class="form-control">
+											<option>Economy type</option>
+											<option>Business type</option>
+											<option>First type</option>
+										</select>
+                                        <span class="select-arrow"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="no_of_persons" id="no_of_persons" placeholder="No_of_p"  />
-
+                                <div class="col-md-3"> 
+                                    <span class="form-label">Time</span>
+                                    <div class="form-group">                                     
+                                        <input  class="form-control" type="text" name="time-picker" id="time-picker" placeholder="Time"  data-error="Time is required." />
+                                    </div>                                
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="date-picker" id="date-picker" placeholder="Date"  data-error="Date is required." />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="time-picker" id="time-picker" placeholder="Time"  data-error="Time is required." />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <select name="preferred_food" id="preferred_food" class="selectpicker">
-                                        <option selected disabled>Đồ ưa thích</option>
-                                        <option>Đồ ăn biển</option>
-                                        <option>Đồ ăn rừng</option>
-                                        <option>Đồ ăn đồng bằng</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <select name="event" id="event" class="selectpicker">
-                                        <option selected disabled>Event</option>
-                                        <option>Cưới</option>
+                                <div class="col-md-3">
+                                <div class="form-group">
+                                        <span class="form-label">Type</span>
+                                        <select name="event" class="form-control ">
+                                            <option selected disabled>Event</option>
+											<option>Cưới</option>
                                         <option>Sinh nhật</option>
                                         <option>Ngày kỉ niệm</option>
-                                    </select>
+										</select>
+                                        <span class="select-arrow"></span>
+                                    </div>
+
+
+                             
                                 </div>
+                              
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                               
-                               
-                            </div>
-                            <form action="sendemail_auto/mail.php" method="post">
-                                <div class="reserve-book-btn text-center">
+                            <div class="reserve-book-btn text-center">
                                     <button class="hvr-underline-from-center" name="sub" type="submit" id="submit">BOOK MY TABLE </button>
                                 </div>
-                                </form>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
+        </div>                
     </div>
 
 

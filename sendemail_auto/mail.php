@@ -12,12 +12,10 @@
         use PHPMailer\PHPMailer\Exception;
          
             
-            // $subject = $_POST['subject'];
            
             if (array_key_exists('sub', $_POST)) {
-                
-               
-                $name = $_POST['form_name'];
+                              
+                $name = $_POST['user'];
                 $email = $_POST['email'];
                 include 'library.php'; // include the library file
                 require 'vendor/autoload.php';
@@ -40,7 +38,7 @@
                     $mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');                 
                     $mail->isHTML(true);                                  // Set email format to HTML
                     $mail->Subject ="HElooo";
-                    $mail->Body = "helllo";
+                    $mail->Body = "helllo ấdasdkasd";
                     $mail->AltBody = "hellolo"; //None HTML
                     $result = $mail->send();
                     if (!$result) {

@@ -1,0 +1,39 @@
+.container {
+    margin-top: 5rem;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.comback a {
+    font-size: 20px;
+    margin-left: 40%;
+    color: red;
+    font-weight: 10px;
+}
+
+.products {
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.zoom {
+    transition: transform .2s;
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.2);
+}
+
+.btn-outline-success {
+    width: 55%;
+    height: auto;
+}
+
+.display {
+    display: inline-flex;
+}
+
+.row mb-3 mr-3 {
+    margin: 10px 10px 10px 10px;
+}
