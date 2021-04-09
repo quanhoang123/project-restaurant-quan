@@ -10,14 +10,15 @@
     ini_set("display_errors", 0);
 
     if (isset($_POST['submit'])) {
-        $email = $_POST['email'];
+        $email = "quanhuhoq111@gmail.com";
         $checkin = $_POST['checkin'];
         $checkout = $_POST['checkout'];
-        $name_food = $mysqli->real_escape_string($_POST['foods']);
-        $name_room = $mysqli->real_escape_string($_POST['room']);
-        $numberPerson =$mysqli->real_escape_string($_POST['adults'] + $_POST['childrent'])x;
+        $name_food = $_POST['foods'];
+        $name_room = $_POST['room'];
+        $numberPerson =$_POST['adults'];
+        $children = $_POST['children'];
         $type = $_POST['event'];
-        $date_time = $_POST['time-picke'];
+        $date_time = $_POST['time-picker'];
         require_once "../Email/PHPMailer.php";
         require_once "../Email/Exception.php";
         require_once "../Email/SMTP.php";
@@ -25,8 +26,7 @@
         include 'library.php'; // include the library file
 
         $mail = new PHPMailer();
-
-        //SMTP Settings
+     
         $mail->isSMTP();
         $mail->CharSet = "utf-8";
         $mail->Host = "smtp.gmail.com";
@@ -36,14 +36,14 @@
         $mail->Port = 465;
         $mail->SMTPSecure = "ssl";
 
-
+        $user=$_SESSION['user'];
         //Email Settings
         $mail->isHTML(true);
         $mail->setFrom(SMTP_UNAME, 'RESTAURANT SHOP');
         $mail->addAddress($email);
         $mail->Subject = ("THANKS YOU SO MUCH");
-        $mail->Body = " <h3>Thank you for submitting a calendar for us. </h3>" .
-            "<table border=1>
+        $mail->Body = ' <h3>User account'.$user["user_name"] .' has a reservation with us </h3>' .
+                "<table border=1>
                         <tr>
                             <th>ID</th>
                             <th>Content</th>
@@ -70,6 +70,10 @@
                         <tr>
                             <td>Number of Person</td>
                             <td>$numberPerson</td>                       
+                        </tr>
+                        <tr>
+                            <td>Number of Person</td>
+                            <td>$children</td>                       
                         </tr>
                         <tr>
                             <td>DateTime</td>

@@ -1,13 +1,11 @@
 <?php
- require_once "modal/connect.php";
- $dt = new database();
- $dt->connect();
+require_once "modal/connect.php";
+$dt = new database();
+$dt->connect();
 if (array_key_exists('add-to-cart', $_POST)) {
     $id = $_POST["add-to-cart"];
     header("location:add-cart.php?id=" . $id);
 }
-
-
 ?>
 <?php
 session_start();
@@ -15,15 +13,13 @@ $is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthentic
 if ($is_authenticated) {
     $user = $_SESSION['user'];
 }
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <!-- Basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,15 +42,160 @@ if ($is_authenticated) {
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="js/bootstrap.min.js"></script> -->
 
 </head>
 
 <style>
-   .fake {
-        margin-left:100px;
+    /* boook table */
+
+    #booking {
+        font-family: 'PT Sans', sans-serif;
+        background-image: url(img/interface/booking.jpg);
+        background-size: cover;
+        background-position: center;
+    }
+
+    .booking-form .form-label {
+        display: block;
+        margin-left: 20px;
+        margin-bottom: 5px;
+        font-weight: 400;
+        text-transform: uppercase;
+        line-height: 24px;
+        height: 24px;
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .booking-form {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 40px;
+        border-radius: 6px;
+        width: 1100px;
+    }
+
+    .booking-form .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .booking-form .form-control {
+        background-color: #fff;
+        height: 50px;
+        color: #191a1e;
+        border: none;
+        font-size: 16px;
+        font-weight: 400;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 40px;
+        padding: 0px 25px;
+    }
+
+    .booking-form .form-control::-webkit-input-placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form .form-control:-ms-input-placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form .form-control::placeholder {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form input[type="date"].form-control:invalid {
+        color: rgba(82, 82, 84, 0.4);
+    }
+
+    .booking-form select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .booking-form select.form-control+.select-arrow {
+        position: absolute;
+        right: 10px;
+        bottom: 6px;
+        width: 32px;
+        line-height: 32px;
+        height: 32px;
+        text-align: center;
+        pointer-events: none;
+        color: rgba(0, 0, 0, 0.3);
+        font-size: 14px;
+    }
+
+    .booking-form select.form-control+.select-arrow:after {
+        content: '\279C';
+        display: block;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .booking-form .form-checkbox input {
+        position: absolute !important;
+        margin-left: -9999px !important;
+        visibility: hidden !important;
+    }
+
+    .booking-form .form-checkbox label {
+        position: relative;
+        padding-top: 4px;
+        padding-left: 30px;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    .booking-form .form-checkbox label+label {
+        margin-left: 15px;
+    }
+
+    .booking-form .form-checkbox input+span {
+        position: absolute;
+        left: 2px;
+        top: 4px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+    }
+
+    .booking-form .form-checkbox input+span:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0px;
+        height: 0px;
+        border-radius: 50%;
+        background-color: #f23e3e;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .booking-form .form-checkbox input:not(:checked)+span:after {
+        opacity: 0;
+    }
+
+    .booking-form .form-checkbox input:checked+span:after {
+        opacity: 1;
+        width: 10px;
+        height: 10px;
+    }
+
+    .booking-form .form-btn {
+        margin-top: 27px;
+    }
+
+    .fake {
+        margin-left: 100px;
     }
 </style>
 
@@ -93,7 +234,7 @@ if ($is_authenticated) {
                                     if ($is_authenticated) {
                                         echo '
                                         <li></li>
-                                        <li><a href="modal/logout.php">Logout</a></li>
+                                        <li><a href="modal/logout.php">'.$user["user_name"].'</a></li>                                     
                                         ';
                                     } else {
                                         echo '
@@ -102,7 +243,7 @@ if ($is_authenticated) {
                                         ';
                                     }
                                     ?>
-                                    <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
+                                   
                                     <li> <a href="view-cart.php" class="btn wishlist"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
                                 </ul>
                             </div>
@@ -138,14 +279,14 @@ if ($is_authenticated) {
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="index.html">
-                            <img src="img/interface/logo.jpg" alt="Logo" width="25%">
+                            <img src="img/interface/logo.jpg" alt="Logo" width="35%">
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="search">
                         <form action="" method="get">
-                            <input type="text" name="search" placeholder="Search">
+                            <input type="text" name="search" placeholder="Search name foods">
                             <button name="ok"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
@@ -154,8 +295,9 @@ if ($is_authenticated) {
             <div class="col-md-3">
             </div>
             <div class="col-md-9">
-                <?php                            
-                 $dt->searchProd();
+                <?php
+
+                $dt->searchProd();
                 // $dt->dis_connect();
                 ?>
             </div>
@@ -222,7 +364,7 @@ if ($is_authenticated) {
             </div>
         </div>
     </div>
-    
+
     <!-- Login Modal -->
     <div class="modal fade" id="login">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -265,26 +407,7 @@ if ($is_authenticated) {
     </div>
 
     <!-- Bottom Bar End -->
-    <div class="modal fade" id="modal_search" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <div class="modal-body">
-                    <img id='id' alt="" width="100px" height="100px;  " />
-                </div>
-                <div class="col-md-12 description">
-                    <h4 id='name_product' class="col-md-9"></h4>
-                    <h5 id='price' class="col-md-3"></h5>
-                </div>
-                <div class="modal-footer foot" style="float:left">
-                    <form action='' method="post">
-                        <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
-                        <button href=""><i class="fa fa-heart"></i></button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <div class="modal fade container-fluid" id="modal_booking" tabindex="-1" role="dialog">
         <div class="modal-dialog fake" role="document">
@@ -292,7 +415,7 @@ if ($is_authenticated) {
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <div class="modal-body">
                     <h2 class="block-title text-center">
-                        Đặt trước với chúng tôi
+                            Reservation with us
                     </h2>
                     <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
                         <div id="booking" class="section">
@@ -303,14 +426,14 @@ if ($is_authenticated) {
                                             <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                                             </div>
                                             <h4 class="form-title">BOOKING FORM</h4>
-                                            <p>Xin mời quý khách </p>
+                                            
                                             <form role="form" method="post" action="Email/phpsentmail.php">
 
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <span class="form-label">Select rooms</span>
-                                                            <select class="form-control" name="room">
+                                                            <select class="form-control content" name="room">
                                                                 <?php
                                                                 
                                                                 // select du lieu truy van la new prod
@@ -328,7 +451,6 @@ if ($is_authenticated) {
                                                             <span class="form-label">Select food</span>
                                                             <select class="form-control" name="foods">
                                                                 <?php
-                                                                
                                                                 // select du lieu truy van la new prod
                                                                 $sql = 'select * from product p 
                                                                     INNER JOIN Product_category c
@@ -343,12 +465,12 @@ if ($is_authenticated) {
                                                             <span class="select-arrow"></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <!-- <div class="col-md-4">
                                                         <div class="form-group">
                                                             <span class="form-label">Email</span>
                                                             <input class="form-control" type="email" name="email" type="text" placeholder="Email">
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-3">
@@ -373,7 +495,7 @@ if ($is_authenticated) {
                                                     <div class="col-md-2">
                                                         <div class="form-group">
                                                             <span class="form-label">Children (0-17)</span>
-                                                            <input class="form-control" type="number" name="childrent" placeholder="Input number" />
+                                                            <input class="form-control" type="number" name="children" placeholder="Input number" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -396,11 +518,9 @@ if ($is_authenticated) {
                                                             <input class="form-control" type="text" name="time-picker" id="time-picker" placeholder="Time" data-error="Time is required." />
                                                         </div>
                                                     </div>
-
-
                                                 </div>
                                                 <div class="reserve-book-btn text-center">
-                                                    <button class="hvr-underline-from-center " type="submit" name="submit">BOOK MY TABLE </button>
+                                                    <button class="hvr-underline-from-center" type="submit" name="submit">BOOK MY TABLE </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -409,9 +529,6 @@ if ($is_authenticated) {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer foot" style="float:left">
-
                 </div>
             </div>
         </div>
@@ -435,9 +552,9 @@ if ($is_authenticated) {
                         <h2 class="block-title"> About Us </h2>
                         <h3>IT STARTED, QUITE SIMPLY, LIKE THIS....</h3>
                         <p> In our restaurant, you can try quality dishes cooked by the owner and his team. Fresh seasonal products are available on every menu.
-                            The restaurant is open from 08:00 to 23:00. Meals are served from 12:00 to 14:00 and from 18:30 to 21:00. 
+                            The restaurant is open from 08:00 to 23:00. Meals are served from 12:00 to 14:00 and from 18:30 to 21:00.
                             The restaurant is closed on Mondays and Tuesdays and also on Sunday evenings in winter.</p>
-                                                                    
+
                         <p>Tới đây tới đây nào mọi người</p>
                     </div>
                 </div>
@@ -457,8 +574,8 @@ if ($is_authenticated) {
                     </div>
                     <div class="special-box">
                         <div id="owl-demo">
-                            <?php                          
-                            
+                            <?php
+
                             $sql = 'select * from product p 
                                 INNER JOIN Product_category c
                                 on (p.id_prodCate=c.id_prodCate)         
@@ -496,140 +613,10 @@ if ($is_authenticated) {
         </div>
     </div>
     <!-- END special-menu -->
-    <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title text-center">
-                            Our Menu
-                        </h2>
-                        <p class="title-caption text-center"> Chọn chọn và chọn nha quý vị </p>
-                    </div>
-                    <div class="tab-menu">
-                        <div class="slider slider-nav">
 
-                            <div class="tab-title-menu">
-                                <h2>Break Fast</h2>
 
-                            </div>
-                            <div class="tab-title-menu">
-                                <h2>Wedding</h2>
-
-                            </div>
-                            <div class="tab-title-menu">
-                                <h2>Wedding</h2>
-
-                            </div>
-                            <div class="tab-title-menu">
-                                <h2>DRINKS</h2>
-
-                            </div>
-                        </div>
-                        <div class="slider slider-single">
-
-                            <div>
-                                <?php
-                               
-                                $sql = 'select * from wedding_img';
-                                $getAll = $dt->select($sql);
-                                foreach ($getAll as $wedding) {
-                                ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                        <div class="offer-item">
-                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                            <div>
-                                                <h3><?php echo $wedding['name'] ?></h3>
-                                                <p>
-                                                    <?php echo $wedding['description'] ?>
-                                                </p>
-                                            </div>
-                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-
-                            <!-- tab product wedding -->
-                            <div>
-                                <?php
-                            
-                                $sql = 'select * from wedding_img';
-                                $getAll = $dt->select($sql);
-                                foreach ($getAll as $wedding) {
-                                ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                        <div class="offer-item">
-                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                            <div>
-                                                <h3><?php echo $wedding['name'] ?></h3>
-                                                <p>
-                                                    <?php echo $wedding['description'] ?>
-                                                </p>
-                                            </div>
-                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-
-                            <!-- tab product wedding -->
-                            <div>
-                                <?php
-                               
-                                $sql = 'select * from wedding_img';
-                                $getAll = $dt->select($sql);
-                                foreach ($getAll as $wedding) {
-                                ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                        <div class="offer-item">
-                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                            <div>
-                                                <h3><?php echo $wedding['name'] ?></h3>
-                                                <p>
-                                                    <?php echo $wedding['description'] ?>
-                                                </p>
-                                            </div>
-                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-
-                            <!-- tab product drink -->
-                            <div>
-                                <?php
-                                
-                                $sql = 'select * from drinks';
-                                $getAll = $dt->select($sql);
-                                foreach ($getAll as $drinks) {
-                                ?>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                        <div class="offer-item">
-                                            <img src="<?php echo $drinks['image_water'] ?>" alt="" class="img-responsive">
-                                            <div>
-                                                <h3><?php echo $drinks['name_water'] ?></h3>
-                                                <p>
-                                                    <?php echo $drinks['description'] ?>
-                                                </p>
-                                            </div>
-                                            <span class="offer-price">$<?php echo $drinks['price'] ?></span>
-                                        </div>
-                                    </div>
-                                <?php
-                                } ?>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
     <!-- end menu -->
-
+    <br><br><br><br>
     <div id="our_team" class="team-main pad-top-100 pad-bottom-100 parallax">
         <div class="container">
             <div class="row">
@@ -643,7 +630,7 @@ if ($is_authenticated) {
                     <div class="team-box">
                         <div class="row">
                             <?php
-                       
+
                             $sql = 'select * from image_member';
                             $getAll = $dt->select($sql);
                             foreach ($getAll as $img) {
@@ -672,19 +659,155 @@ if ($is_authenticated) {
         </div>
     </div>
 
+    <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <h2 class="block-title text-center">
+                                Our Menu
+                            </h2>
+                            <p class="title-caption text-center"> Chọn chọn và chọn nha quý vị </p>
+                        </div>
+                        <div class="tab-menu">
+                            <div class="slider slider-nav">
+
+                                <div class="tab-title-menu">
+                                    <h2>Break Fast</h2>
+
+                                </div>
+                                <div class="tab-title-menu">
+                                    <h2>Wedding</h2>
+
+                                </div>
+                                <div class="tab-title-menu">
+                                    <h2>Wedding</h2>
+
+                                </div>
+                                <div class="tab-title-menu">
+                                    <h2>DRINKS</h2>
+
+                                </div>
+                            </div>
+                            <div class="slider slider-single">
+                                <!-- Tab pen product  -->
+                                <!-- tab product wedding -->
+                                <div>
+                                    <?php
+
+                                    $sql = 'select * from wedding_img';
+                                    $getAll = $dt->select($sql);
+                                    foreach ($getAll as $wedding) {
+                                    ?>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                            <div class="offer-item">
+                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                                <div>
+                                                    <h3><?php echo $wedding['name'] ?></h3>
+                                                    <p>
+                                                        <?php echo $wedding['description'] ?>
+                                                    </p>
+                                                </div>
+                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+
+                                <!-- tab product wedding -->
+                                <div>
+                                    <?php
+
+                                    $sql = 'select * from wedding_img';
+                                    $getAll = $dt->select($sql);
+                                    foreach ($getAll as $wedding) {
+                                    ?>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                            <div class="offer-item">
+                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                                <div>
+                                                    <h3><?php echo $wedding['name'] ?></h3>
+                                                    <p>
+                                                        <?php echo $wedding['description'] ?>
+                                                    </p>
+                                                </div>
+                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+
+                                <!-- tab product wedding -->
+                                <div>
+                                    <?php
+
+                                    $sql = 'select * from wedding_img';
+                                    $getAll = $dt->select($sql);
+                                    foreach ($getAll as $wedding) {
+                                    ?>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                            <div class="offer-item">
+                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                                <div>
+                                                    <h3><?php echo $wedding['name'] ?></h3>
+                                                    <p>
+                                                        <?php echo $wedding['description'] ?>
+                                                    </p>
+                                                </div>
+                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+
+                                <!-- tab product drink -->
+                                <div>
+                                    <?php
+
+                                    $sql = 'select * from drinks';
+                                    $getAll = $dt->select($sql);
+                                    foreach ($getAll as $drinks) {
+                                    ?>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                            <div class="offer-item">
+                                                <img src="<?php echo $drinks['image_water'] ?>" alt="" class="img-responsive">
+                                                <div>
+                                                    <h3><?php echo $drinks['name_water'] ?></h3>
+                                                    <p>
+                                                        <?php echo $drinks['description'] ?>
+                                                    </p>
+                                                </div>
+                                                <span class="offer-price">$<?php echo $drinks['price'] ?></span>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    } ?>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end menu -->
+    
+
     <div id="product" class="gallery-main pad-top-100 pad-bottom-100">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title text-center">
-                            Sản phẩm của chúng tôi
+                            Our rooms
                         </h2>
-                        <p class="title-caption text-center">Mời các bạn thưởng thức lựa chọn ẩm thực mình muốn </p>
+                        <p class="title-caption text-center">Welcome you</p>
                     </div>
                     <div class="gal-container clearfix">
                         <?php
-                     
+
                         $sql = 'select * from room_restaurant';
                         $getAll = $dt->select($sql);
                         foreach ($getAll as $room) {
@@ -707,7 +830,7 @@ if ($is_authenticated) {
                                                 </div>
                                                 <div class="modal-footer foot" style="float:left">
                                                     <form action='' method="post">
-                                                        <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
+                                                        <button name="add-to-cart" value="<?php echo $product['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
                                                         <button href=""><i class="fa fa-heart"></i></button>
                                                     </form>
                                                 </div>
@@ -724,24 +847,6 @@ if ($is_authenticated) {
         </div>
     </div>
 
-    <div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2 class="block-title text-center">
-                        Our Blog
-                    </h2>
-                    <div class="blog-box clearfix">
-                    </div>
-                    <!-- end blog-box -->
-                    <div class="blog-btn-v">
-                        <a class="hvr-underline-from-center" href="#">View the Blog</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <br><br>
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">
@@ -762,95 +867,92 @@ if ($is_authenticated) {
             </div>
         </div>
 
-        <br><br>
 
-        <div class="footer-box pad-top-70">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-in-main">
-                        <div class="footer-logo">
-                            <div class="text-center">
-                                <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                            <div class="footer-box-a">
-                                <h3>About Us</h3>
-                                <p>Chúng tôi là sự lựa chọn đúng đắn cho bạn</p>
-                                <ul class="socials-box footer-socials pull-left">
-                                    <li>
-                                        <a href="#">
-                                            <div class="social-circle-border"><i class="fa  fa-facebook"></i></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="social-circle-border"><i class="fa fa-twitter"></i></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="social-circle-border"><i class="fa fa-google-plus"></i></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="social-circle-border"><i class="fa fa-pinterest"></i></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="social-circle-border"><i class="fa fa-linkedin"></i></div>
-                                        </a>
-                                    </li>
-                                </ul>
 
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                            <div class="footer-box-c">
-                                <h3>Contact Us</h3>
-                                <p>
-                                    <i class="fa fa-map-signs" aria-hidden="true"></i>
-                                    <span>99 Tô hiến thành</span>
-                                </p>
-                                <p>
-                                    <i class="fa fa-mobile" aria-hidden="true"></i>
-                                    <span>
-                                        +84 037784687
-                                    </span>
-                                </p>
-                                <p>
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    <span><a href="#">amthucvietnamcusine@gmail.com</a></span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                            <div class="footer-box-d">
-                                <h3>Opening Hours</h3>
-                                <ul>
-                                    <li>
-                                        <p>Thứ 2 - Thứ 6 </p>
-                                        <span> 11:00 AM - 9:00 PM</span>
-                                    </li>
-                                    <li>
-                                        <p>Thứ 7 - Chủ nhật </p>
-                                        <span> 11:00 AM - 5:00 PM</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
+    <div class="footer-box pad-top-70">
+        <div class="container">
+            <div class="row">
+                <div class="footer-in-main">
+                    <div class="footer-logo">
+                        <div class="text-center">
+                            <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
                     </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                        <div class="footer-box-a">
+                            <h3>About Us</h3>
+                            <p>Chúng tôi là sự lựa chọn đúng đắn cho bạn</p>
+                            <ul class="socials-box footer-socials pull-left">
+                                <li>
+                                    <a href="#">
+                                        <div class="social-circle-border"><i class="fa  fa-facebook"></i></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="social-circle-border"><i class="fa fa-twitter"></i></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="social-circle-border"><i class="fa fa-google-plus"></i></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="social-circle-border"><i class="fa fa-pinterest"></i></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="social-circle-border"><i class="fa fa-linkedin"></i></div>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                        <div class="footer-box-c">
+                            <h3>Contact Us</h3>
+                            <p>
+                                <i class="fa fa-map-signs" aria-hidden="true"></i>
+                                <span>99 Tô hiến thành</span>
+                            </p>
+                            <p>
+                                <i class="fa fa-mobile" aria-hidden="true"></i>
+                                <span>
+                                    +84 037784687
+                                </span>
+                            </p>
+                            <p>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span><a href="#">amthucvietnamcusine@gmail.com</a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                        <div class="footer-box-d">
+                            <h3>Opening Hours</h3>
+                            <ul>
+                                <li>
+                                    <p>Thứ 2 - Thứ 6 </p>
+                                    <span> 11:00 AM - 9:00 PM</span>
+                                </li>
+                                <li>
+                                    <p>Thứ 7 - Chủ nhật </p>
+                                    <span> 11:00 AM - 5:00 PM</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- back to top -->
-    <a href="#" class="scrollup" style="display: none;">Scroll</a>
-
+    </div>
 
     <!-- ALL JS FILES -->
     <script src="js/all.js"></script>
@@ -908,11 +1010,15 @@ if ($is_authenticated) {
             });
         });
     </script>
+
+   
+
+
     <script>
         function switchAuthModal() {
             var modalLogin = $('#login');
-            var modalSignUp = document.getElementById("register");
-            $('#login').modal("togge");
+            var modalSignUp = document.getElementById("#register");
+            $('#login').modal("toggle");
             $('#register').modal("toggle");
         }
     </script>
@@ -929,12 +1035,10 @@ if ($is_authenticated) {
                         document.getElementById('price').innerText = response.data.price;
                         document.getElementById('id').src = response.data.image_room;
                     });
-
                 } catch (err) {
                     console.error(`Error: ${err}`);
                 }
             });
-
         });
     </script>
 
