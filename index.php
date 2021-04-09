@@ -1,24 +1,21 @@
 <?php
 
+require_once"modal/connect.php";
 if (array_key_exists('add-to-cart', $_POST)) {
-    // $id = $_POST["add-to-cart"];
-    if(isset($_SESSION['user'])&& isset($_SESSION['isAuthenticated'])){
-        echo "<script>alert('Bạn đã đăng nhập')</script>";
-        // header("location:carts/cart.php?id=" . $id);
-    }
-    echo "<script>alert('Vui lòng đăng nhập trước')</>";
-    
+    $id = $_POST["add-to-cart"];
+    header("location:add-cart.php?id=" . $id);
 }
 
 ?>
+
 <?php
 session_start();
 $is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthenticated'] : false;
 if ($is_authenticated) {
     $user = $_SESSION['user'];
 }
-
 ?>
+
 
 
 <!DOCTYPE html>
@@ -56,7 +53,7 @@ if ($is_authenticated) {
     /* style center modal booking */
 
     .fake {
-        margin-left: 300px;
+        margin-left: 400px;
     }
 </style>
 
@@ -270,9 +267,6 @@ if ($is_authenticated) {
             </div>
         </div>
     </div>
-
-
-
     <div class="modal fade container-fluid" id="modal_booking" tabindex="-1" role="dialog">
         <div class="modal-dialog fake" role="document">
             <div class="modal-content container">
