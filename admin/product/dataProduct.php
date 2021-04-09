@@ -112,7 +112,7 @@ public function updateProduct($id_newProd){
         $create_date = $this->dbProduct->real_escape_string($_POST['create_date']);
 
 
-        $img = 'img-product/'. $image;
+        $img = '../img/img-product/'. $image;
         $update="update product SET name_newProd ='$name_product', id_prodCate ='$category_id',image ='$img', price ='$price',create_date='$create_date', quantity ='$quantity', descriptions='$description', status ='$status'  WHERE id_newProd = '$id_newProd' ";
         $result=$this->dbProduct->query($update);
         if ($result == true){
@@ -127,9 +127,7 @@ public function updateProduct($id_newProd){
 //-----------Xuat du lieu------------//
 public function display(){
     $query = 'select * from product p 
-            INNER JOIN Product_category c
-            on (p.id_prodCate=c.id_prodCate)         
-            where p.id_prodCate= 1';                  
+            ';                  
                $result = $this->dbProduct->query($query);
                if ($result ==true){
                    while($row = $result->fetch_assoc()){
