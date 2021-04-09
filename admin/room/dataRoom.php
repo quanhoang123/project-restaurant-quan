@@ -3,7 +3,7 @@ class DatabaseRoom {
     public $servername = "localhost";
     public $username   = "root";
     public $password   = "";
-    public $database   = "group_restaurant";
+    public $database   = "database_restaurant";
     public $dbRoom;
     
     public function __construct()

@@ -54,7 +54,7 @@ if ($is_authenticated) {
 
 <style>
    .fake {
-        margin-left: 400px;
+        margin-left:100px;
     }
 </style>
 
@@ -87,7 +87,7 @@ if ($is_authenticated) {
                                     <li><a href="#menu">Menu</a></li>
                                     <li><a href="#our_team">Team</a></li>
                                     <li><a href="#product">Product</a></li>
-                                    <li><a href="#reservation">Book Table</a></li>
+                                    <li><a href="">Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
                                     <?php
                                     if ($is_authenticated) {
@@ -169,7 +169,7 @@ if ($is_authenticated) {
                     <i class="fa fa-times fa-2x"></i>
                 </div>
                 <div class="container-fluid mt-5">
-                    <form id="sign-up-form" enctype="multipart/form-data">
+                    <form id="sign-up-form" enctype="multipart/form-data" action="Email/sendMail.php">
                         <div class="form-group text-center pb-2 ">
                             <h4>Registration Form</h4>
                         </div>
@@ -213,7 +213,7 @@ if ($is_authenticated) {
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-info form-control" type="submit">Register</button>
+                            <button class="btn btn-info form-control" name="sendmailSignup" type="submit">Register</button>
                         </div>
                 </div>
                 <h6>OR Continue with</h6>
@@ -434,8 +434,10 @@ if ($is_authenticated) {
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title"> About Us </h2>
                         <h3>IT STARTED, QUITE SIMPLY, LIKE THIS....</h3>
-                        <p> Tới đây tới đây nào mọi người</p>
-                        <p> Tới đây tới đây nào mọi người</p>
+                        <p> In our restaurant, you can try quality dishes cooked by the owner and his team. Fresh seasonal products are available on every menu.
+                            The restaurant is open from 08:00 to 23:00. Meals are served from 12:00 to 14:00 and from 18:30 to 21:00. 
+                            The restaurant is closed on Mondays and Tuesdays and also on Sunday evenings in winter.</p>
+                                                                    
                         <p>Tới đây tới đây nào mọi người</p>
                     </div>
                 </div>
@@ -455,9 +457,8 @@ if ($is_authenticated) {
                     </div>
                     <div class="special-box">
                         <div id="owl-demo">
-                            <?php
-                           
-                            // select du lieu truy van la new prod
+                            <?php                          
+                            
                             $sql = 'select * from product p 
                                 INNER JOIN Product_category c
                                 on (p.id_prodCate=c.id_prodCate)         
@@ -471,7 +472,7 @@ if ($is_authenticated) {
                                             <div class="headline">
                                                 <?php echo $product['name_newProd'] ?>
                                                 <div class="line"></div>
-                                                <div class="dit-line">Anh di đêm anh sợ nha đừng để anh đi đêm nhé em.</div>
+                                                <div class="dit-line"><?php echo $product['Descriptions'] ?></div>
                                                 <div class="cart" style="float:left border-radius=24px">
                                                     <form action='' method="post">
                                                         <button href="#" style="color:black"><i class="fa fa-heart"></i></button>

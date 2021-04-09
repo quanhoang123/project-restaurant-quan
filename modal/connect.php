@@ -149,7 +149,7 @@ class database
                     } else {
                         // Dùng câu lênh like trong sql và sứ dụng toán tử % của php để tìm kiếm dữ liệu chính xác hơn.
                         $query = "select * from product where name_newProd like '%$search%'";
-                        $con = mysqli_connect("localhost", "root", "", "group_restaurant");
+                        $con = mysqli_connect("localhost", "root", "", "database_restaurant");
                         // Thực thi câu truy vấn
                         $sql = mysqli_query($con, $query);
                         // Đếm số đong trả về trong sql.

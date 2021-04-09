@@ -5,7 +5,7 @@ class DatabaseProduct{
     public $servername = "localhost";
     public $username   = "root";
     public $password   = "";
-    public $database   = "group_restaurant";
+    public $database   = "database_restaurant";
     public $dbProduct;
     public function __construct()
     {

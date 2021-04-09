@@ -5,7 +5,7 @@ class DatabaseEmployee
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $database = "group_restaurant";
+    private $database = "database_restaurant";
     public $con;
 
 

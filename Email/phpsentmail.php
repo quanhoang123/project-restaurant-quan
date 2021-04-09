@@ -13,9 +13,9 @@
         $email = $_POST['email'];
         $checkin = $_POST['checkin'];
         $checkout = $_POST['checkout'];
-        $name_food = $_POST['foods'];
-        $name_room = $_POST['room'];
-        $numberPerson = $_POST['adults'] + $_POST['childrent'];
+        $name_food = $mysqli->real_escape_string($_POST['foods']);
+        $name_room = $mysqli->real_escape_string($_POST['room']);
+        $numberPerson =$mysqli->real_escape_string($_POST['adults'] + $_POST['childrent'])x;
         $type = $_POST['event'];
         $date_time = $_POST['time-picke'];
         require_once "../Email/PHPMailer.php";

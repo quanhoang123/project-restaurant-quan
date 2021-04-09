@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $sql = "INSERT INTO users(`fullname`,`user_name`,`password`,`gender`,`email`,`phone`,`address`) values ('$name','$username','$password','$gender','$email','$phone','$address')";
     $result = $mysqli->query($sql);
-
+   
 if ($result) {
     $sql = "SELECT * FROM users WHERE `id_user` = $mysqli->insert_id LIMIT 1";
     $result = $mysqli->query($sql);
