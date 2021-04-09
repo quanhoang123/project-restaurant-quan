@@ -5,7 +5,12 @@ use database_restaurant;
 -- -----------------------------
 -- table for image:
 -- -----------------------------
+-- mk
+ -- htqsrivbcbqbikoz
 
+ -- qAD8LIxKB#78Roo3O!G5
+
+ -- 6*ko)LJg4~6*FBQV
 Create table  image_member(
 id INT(11) NOT NULL auto_increment primary key,
 name_mem varchar(255) default null,
@@ -13,10 +18,10 @@ image_mem varchar(255)  COLLATE utf8_unicode_ci NOT NULL,
 Note varchar(255) default null
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
  insert into image_member value
-(1, 'Quan', 'img/img_member/quan.jpg', ''),
-(2,'Diem','img/img_member/diem.jpg', ''),
-        (3,'Vuong','img/img_member/vuong.jpg', ''),
-        (4,'Vi','img/img_member/vi.jpg', '');
+(1, 'Quan', 'img/img_member/quan.jpg', 'Quanty nha'),
+(2,'Diem','img/img_member/diem.jpg', 'Không biết thì hỏi thầy sẽ biết'),
+        (3,'Vương','img/img_member/vuong.jpg', 'Auto hand some boy'),
+        (4,'Vi','img/img_member/vi.jpg', 'Dep trai co gi sai');
        
 CREATE table  image_slider (
 id INT(11) NOT NULL auto_increment primary key,
@@ -33,11 +38,25 @@ note varchar(255) default null
 -- -----------------------------
 -- table for admin:
 -- -----------------------------
+CREATE TABLE  Register (
+id_user int primary key auto_increment,
+    fullname varchar(60),
+    user_name varchar(255),
+    password1 char(11),
+    avatar varchar(255),
+    role varchar(255),
+    gender char(5),
+    email varchar(50),
+    phone char(11),
+    status int(11) not null default '0',
+    address varchar(100)
+)ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 
 
 create table employees(
-    id_employeer int primary key auto_increment,
-    name_employeer varchar(60),
+id_employeer int primary key,
+name_employeer varchar(60),
     gender varchar(5),
     address varchar(100),
     phone varchar(11),
@@ -54,8 +73,8 @@ create table if not exists users(
 	id_user int primary key auto_increment,
     fullname varchar(60),
     user_name varchar(255),
-    password char(11),
-   
+    password1 char(11),
+    avatar varchar(255),
     gender char(5),
     role varchar(255),    
     email varchar(50),
@@ -63,12 +82,12 @@ create table if not exists users(
     status int(11) not null default '0',
     address varchar(100)
 );
-insert into users(fullname,user_name,`password`,gender,`role`,email,phone,`status`,address) 
+insert into users(fullname,user_name,password1,avatar,gender,role,email,phone,`status`,address) 
 values
-	('hung vuong','vuong1',123,'nam','user','jojo@gmail.com',0121212,1,'Hung-Vuong'),
-	('Trung Quan','vuong123',123,'nam','admin','quanhuhoq111@gmail.com',0121212,1,'Hung-Vuong'),
-    ('Thi Diem','diem',123,'nu','admin','diemthi@gmail.com',0121212,1,'Hung-Vuong'),
-    ('ngoc vi','vi',123,'nam','admin','jojo@gmail.com',0121212,1,'Hung-Vuong');
+	('hung vuong','vuong1',123,'','nam','user','jojo@gmail.com',0121212,1,'Hung-Vuong'),
+	('Trung Quan','vuong123',123,'','nam','admin','quanhuhoq111@gmail.com',0121212,1,'Hung-Vuong'),
+    ('Thi Diem','diem',123,'','nu','admin','diemthi@gmail.com',0121212,1,'Hung-Vuong'),
+    ('ngoc vi','vi',123,'','nam','admin','jojo@gmail.com',0121212,1,'Hung-Vuong');
 select * from users;
 
 
@@ -114,22 +133,22 @@ create table product(
     foreign key (id_prodCate) references Product_category(id_prodCate)
 );
 insert into product values
-(1,'Ba Ba',1,'img/img-product/baba.jpg','',100000,'2020-1-21',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(2,'Ga Luoc',1,'img/img-product/galuoc.png','',150000,'2020-03-05',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(3,'Cua Hoang De',1,'img/img-product/cuahoangde.jpg','',150000,'2020-03-05',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(4,'Ca Mú Hấp',1,'img/img-product/camuhap.jpg','',700000,'2020-05-11',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(5,'Cá',1,'img/img-product/ganuong.jpg','',100000,'2020-05-12',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(6,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(7,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(8,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(9,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(10,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',200,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(11,'Ba Ba',3,'img/img-product/baba.jpg',500000,100000,'2020-1-21',100,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(12,'Ga Choi',3,'img/img-product/gachoi.jpg',500000,150000,'2020-03-05',23,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(13,'Cua Hoang De',3,'img/img-product/cuahoangde.jpg',500000,150000,'2020-03-05',23,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(14,'Ca Mú Hấp',3,'img/img-product/camuhap.jpg',500000,700000,'2020-05-11',20,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(15,'Cá',3,'img/img-product/honhop.jpg',500000,200000,'2020-05-12',20,'Delicous, good and cheap.Enjoy the taste of the country',1),
-(16,'Ga Nuong',3,'img/img-product/ganuong.jpg',500000,500000,'2020-05-14',40,'Delicous, good and cheap.Enjoy the taste of the country',1);
+(1,'Ba Ba',1,'img/img-product/baba.jpg','',100000,'2020-1-21',100,'',1),
+(2,'Ga Luoc',1,'img/img-product/galuoc.png','',150000,'2020-03-05',100,'',1),
+(3,'Cua Hoang De',1,'img/img-product/cuahoangde.jpg','',150000,'2020-03-05',100,'',1),
+(4,'Ca Mú Hấp',1,'img/img-product/camuhap.jpg','',700000,'2020-05-11',100,'',1),
+(5,'Cá',1,'img/img-product/ganuong.jpg','',100000,'2020-05-12',100,'',1),
+(6,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'',1),
+(7,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'',1),
+(8,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'',1),
+(9,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',100,'',1),
+(10,'Ga Nuong',1,'img/img-product/ganuong.jpg','',500000,'2020-05-14',200,'',1),
+(11,'Ba Ba',3,'img/img-product/baba.jpg',500000,100000,'2020-1-21',100,'',1),
+(12,'Ga Choi',3,'img/img-product/gachoi.jpg',500000,150000,'2020-03-05',23,'',1),
+(13,'Cua Hoang De',3,'img/img-product/cuahoangde.jpg',500000,150000,'2020-03-05',23,'',1),
+(14,'Ca Mú Hấp',3,'img/img-product/camuhap.jpg',500000,700000,'2020-05-11',20,'',1),
+(15,'Cá',3,'img/img-product/honhop.jpg',500000,200000,'2020-05-12',20,'',1),
+(16,'Ga Nuong',3,'img/img-product/ganuong.jpg',500000,500000,'2020-05-14',40,'',1);
 
 
 create table if not exists drinks(
@@ -437,6 +456,8 @@ FOREIGN KEY (id_room) REFERENCES room_restaurant(id_room)
 -- id int primary key,
 -- content varchar (200)
 -- );
+
+
 
 -- drop trigger if exists after_product_update;
 -- delimiter //

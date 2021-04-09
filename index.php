@@ -1,13 +1,14 @@
 <?php
-
-require_once"modal/connect.php";
+ require_once "modal/connect.php";
+ $dt = new database();
+ $dt->connect();
 if (array_key_exists('add-to-cart', $_POST)) {
     $id = $_POST["add-to-cart"];
     header("location:add-cart.php?id=" . $id);
 }
 
-?>
 
+?>
 <?php
 session_start();
 $is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthenticated'] : false;
@@ -45,14 +46,14 @@ if ($is_authenticated) {
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
 
 </head>
 
 <style>
-    /* style center modal booking */
-
-    .fake {
+   .fake {
         margin-left: 400px;
     }
 </style>
@@ -90,7 +91,6 @@ if ($is_authenticated) {
                                     <li><a href="#footer">Contact us</a></li>
                                     <?php
                                     if ($is_authenticated) {
-                                        
                                         echo '
                                         <li></li>
                                         <li><a href="modal/logout.php">Logout</a></li>
@@ -103,7 +103,7 @@ if ($is_authenticated) {
                                     }
                                     ?>
                                     <li><a href="#" class="btn wishlist"><i class="fa fa-heart"></i><span>(0)</span></a></li>
-                                    <li> <a href="#" class="btn wishlist"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
+                                    <li> <a href="view-cart.php" class="btn wishlist"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -119,7 +119,7 @@ if ($is_authenticated) {
                 <div class="banner-static">
                     <div class="banner-text">
                         <div class="banner-cell">
-                            <!-- <h1>Enjoy with <span class="typer" id="some-id"  data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1> -->
+                            <!-- <h1>Enjoy with <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Our Restaurant:Family:" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1> -->
                             <h1>Restaurant </h1>
                             <p>Hãy tin tưởng lựa chọn điểm đến mỗi ngày để có một bữa ăn ấm áp nhé</p>
                             <div class="book-btn">
@@ -154,17 +154,13 @@ if ($is_authenticated) {
             <div class="col-md-3">
             </div>
             <div class="col-md-9">
-                <?php
-                include 'modal/connect.php';
-                $dt = new database();
-                $dt->connect();
-                $dt->searchProd();
-                $dt->dis_connect();
+                <?php                            
+                 $dt->searchProd();
+                // $dt->dis_connect();
                 ?>
             </div>
         </div>
     </div>
-    <!-- Bottom Bar End -->
     <!-- Registeration Modal -->
     <div class="modal fade" id="register">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -226,7 +222,7 @@ if ($is_authenticated) {
             </div>
         </div>
     </div>
-
+    
     <!-- Login Modal -->
     <div class="modal fade" id="login">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -267,6 +263,29 @@ if ($is_authenticated) {
             </div>
         </div>
     </div>
+
+    <!-- Bottom Bar End -->
+    <div class="modal fade" id="modal_search" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-body">
+                    <img id='id' alt="" width="100px" height="100px;  " />
+                </div>
+                <div class="col-md-12 description">
+                    <h4 id='name_product' class="col-md-9"></h4>
+                    <h5 id='price' class="col-md-3"></h5>
+                </div>
+                <div class="modal-footer foot" style="float:left">
+                    <form action='' method="post">
+                        <button name="add-to-cart" value="<?php echo $room['id_room'] ?>"><i class="fa fa-shopping-cart"></i></button>
+                        <button href=""><i class="fa fa-heart"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade container-fluid" id="modal_booking" tabindex="-1" role="dialog">
         <div class="modal-dialog fake" role="document">
             <div class="modal-content container">
@@ -293,9 +312,7 @@ if ($is_authenticated) {
                                                             <span class="form-label">Select rooms</span>
                                                             <select class="form-control" name="room">
                                                                 <?php
-                                                                require_once "modal/connect.php";
-                                                                $dt = new database();
-                                                                $dt->connect();
+                                                                
                                                                 // select du lieu truy van la new prod
                                                                 $sql = 'select * from room_restaurant';
                                                                 $getAll = $dt->select($sql);
@@ -311,9 +328,7 @@ if ($is_authenticated) {
                                                             <span class="form-label">Select food</span>
                                                             <select class="form-control" name="foods">
                                                                 <?php
-                                                                require_once "modal/connect.php";
-                                                                $dt = new database();
-                                                                $dt->connect();
+                                                                
                                                                 // select du lieu truy van la new prod
                                                                 $sql = 'select * from product p 
                                                                     INNER JOIN Product_category c
@@ -419,9 +434,9 @@ if ($is_authenticated) {
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title"> About Us </h2>
                         <h3>IT STARTED, QUITE SIMPLY, LIKE THIS....</h3>
-                        <p> Nhà hàng độc lập lâu đời nhất tại 101b Le Huu Trac. Địa điểm được người dân địa phương yêu thích suốt hơn 83 năm. Nổi bật với nước sốt spaghetti DeAngelis và chiếc bánh pizza Upside Down nức tiếng gần xa. Các món ăn kiểu Ý tự làm và vô cùng ngon miệng với hải sản, bít tết và mì ống. Thực đơn quán rượu đầy đủ và nhiều lựa chọn bánh sandwich. Thực đơn đầy đủ phục vụ suốt cả ngày lẫn đêm khuya. Quầy bar đầy đủ với chương trình giải trí vào cuối tuần. Nơi hội tụ các ngôi sao, bữa tiệc của dàn diễn viên và những nhân vật nổi tiếng đến từ Nhà hát Hershey.
-                            Nằm ở vị trí thuận tiện trên Đại lộ 1A, ngay đối diện Bảo tàng Hershey Story.</p>
                         <p> Tới đây tới đây nào mọi người</p>
+                        <p> Tới đây tới đây nào mọi người</p>
+                        <p>Tới đây tới đây nào mọi người</p>
                     </div>
                 </div>
 
@@ -441,9 +456,7 @@ if ($is_authenticated) {
                     <div class="special-box">
                         <div id="owl-demo">
                             <?php
-                            require_once "modal/connect.php";
-                            $dt = new database();
-                            $dt->connect();
+                           
                             // select du lieu truy van la new prod
                             $sql = 'select * from product p 
                                 INNER JOIN Product_category c
@@ -458,10 +471,10 @@ if ($is_authenticated) {
                                             <div class="headline">
                                                 <?php echo $product['name_newProd'] ?>
                                                 <div class="line"></div>
-                                                <div class="dit-line"><?php echo $product['Descriptions'] ?>.</div>
+                                                <div class="dit-line">Anh di đêm anh sợ nha đừng để anh đi đêm nhé em.</div>
                                                 <div class="cart" style="float:left border-radius=24px">
                                                     <form action='' method="post">
-                                                        <button href="#" style="color:black" name="heart"><i class="fa fa-heart"></i></button>
+                                                        <button href="#" style="color:black"><i class="fa fa-heart"></i></button>
                                                         <button name="add-to-cart" value="<?php echo $product['id_newProd'] ?>" style="color:black"><i class="fa fa-shopping-cart"></i></button>
                                                     </form>
 
@@ -508,7 +521,7 @@ if ($is_authenticated) {
 
                             </div>
                             <div class="tab-title-menu">
-                                <h2>Drainks</h2>
+                                <h2>DRINKS</h2>
 
                             </div>
                         </div>
@@ -516,9 +529,7 @@ if ($is_authenticated) {
 
                             <div>
                                 <?php
-                                require_once "modal/connect.php";
-                                $dt = new database();
-                                $dt->connect();
+                               
                                 $sql = 'select * from wedding_img';
                                 $getAll = $dt->select($sql);
                                 foreach ($getAll as $wedding) {
@@ -541,9 +552,7 @@ if ($is_authenticated) {
                             <!-- tab product wedding -->
                             <div>
                                 <?php
-                                require_once "modal/connect.php";
-                                $dt = new database();
-                                $dt->connect();
+                            
                                 $sql = 'select * from wedding_img';
                                 $getAll = $dt->select($sql);
                                 foreach ($getAll as $wedding) {
@@ -566,9 +575,7 @@ if ($is_authenticated) {
                             <!-- tab product wedding -->
                             <div>
                                 <?php
-                                require_once "modal/connect.php";
-                                $dt = new database();
-                                $dt->connect();
+                               
                                 $sql = 'select * from wedding_img';
                                 $getAll = $dt->select($sql);
                                 foreach ($getAll as $wedding) {
@@ -591,9 +598,7 @@ if ($is_authenticated) {
                             <!-- tab product drink -->
                             <div>
                                 <?php
-                                require_once "modal/connect.php";
-                                $dt = new database();
-                                $dt->connect();
+                                
                                 $sql = 'select * from drinks';
                                 $getAll = $dt->select($sql);
                                 foreach ($getAll as $drinks) {
@@ -637,9 +642,7 @@ if ($is_authenticated) {
                     <div class="team-box">
                         <div class="row">
                             <?php
-                            require_once "modal/connect.php";
-                            $dt = new database();
-                            $dt->connect();
+                       
                             $sql = 'select * from image_member';
                             $getAll = $dt->select($sql);
                             foreach ($getAll as $img) {
@@ -680,9 +683,7 @@ if ($is_authenticated) {
                     </div>
                     <div class="gal-container clearfix">
                         <?php
-                        require_once "modal/connect.php";
-                        $dt = new database();
-                        $dt->connect();
+                     
                         $sql = 'select * from room_restaurant';
                         $getAll = $dt->select($sql);
                         foreach ($getAll as $room) {

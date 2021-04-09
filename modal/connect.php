@@ -1,11 +1,10 @@
 <?php
-
 class database
 {
     private $db_server = "localhost";
     private $db_username = "root";
     private $db_password = "";
-    private $db_data = "group_restaurant";
+    private $db_data = "database_restaurant";
     public $conn = "";
     //connect database
     public function connect()
@@ -17,7 +16,6 @@ class database
         }
     }
 
-        
     // close database
     public function dis_connect()
     {
@@ -74,7 +72,6 @@ class database
             // Free result set
             mysqli_free_result($result);
         }
-        $this->dis_connect();
     }
     public function select($sql)
     {
@@ -104,8 +101,7 @@ class database
                 
             }
           return $result;
-    }   
-    public function searchProdById(){
+    } public function searchProdById(){
         // Nếu người dùng submit form thì thực hiện
         if (isset($_REQUEST['ok'])) {
             // Gán hàm addslashes để chống sql injection
@@ -169,10 +165,10 @@ class database
                         }
                     }
                 }
-    }
-
+    }  
+    
+    
 }
-?>
-           
 
+?>
 

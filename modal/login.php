@@ -2,7 +2,7 @@
 
 session_start();
 $_SESSION['message'] = "";
-$mysqli = new mysqli('localhost', 'root', '', 'group_restaurant');
+$mysqli = new mysqli('localhost', 'root', '', 'database_restaurant');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    // username and password sent from form 
    $username = $mysqli->real_escape_string($_POST['username']);
