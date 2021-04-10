@@ -1,6 +1,7 @@
 <?php
 session_start();
 $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +57,6 @@ $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
                                 <?php
                                 }
                                 ?>
-
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -73,7 +73,7 @@ $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
 
                                 <tr>
                                     <td colspan="6">
-                                        <form method="post">
+                                        <form method="post" action="payment.php">
                                             <?php if ($sum <= 0) {
                                             ?>
 
@@ -82,7 +82,7 @@ $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
                                             } else {
                                             ?>
 
-                                                <a href="payment" class="btn btn-danger" name="btn_cart" width="120%">Thanh Toán</a>
+                                                <input type="submit" class="btn btn-danger" name="checkout" width="120%">
                                             <?php
                                             }
                                             ?>

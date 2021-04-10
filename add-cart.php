@@ -4,6 +4,7 @@ session_start();
 $con = new database();
 $con->connect();
 
+
 if (isset($_GET['xoatatca']) && $_GET['xoatatca'] == 1) {
     unset($_SESSION['cart']);
     header('location:view-cart.php');
