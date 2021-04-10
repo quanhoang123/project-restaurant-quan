@@ -10,7 +10,7 @@ if(isset($_POST['checkout'])){
         echo '<script>window.location="index.php"</script>';
     }
 
-    
+
 }
 $id_user = $_SESSION['user'];
 
@@ -30,7 +30,6 @@ echo '
 <li></li>
 <li><a href="modal/logout.php">'.$id_user['user_name'].'</a></li>                                     
 ';
-
 $insert_orders =  "INSERT INTO orders(id_user,total_money.) values ('" . $id_user."',1),";
 $orders_query = mysqli_query($dt->conn,$insert_orders);
 if ($insert_orders) {

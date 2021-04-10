@@ -2,24 +2,15 @@
 require_once "modal/connect.php";
 $dt = new database();
 $dt->connect();
-
-
-
-
-    if(array_key_exists('add-to-cart', $_POST)){
+if (array_key_exists('add-to-cart', $_POST)) {
     $id = $_POST["add-to-cart"];
     header("location:add-cart.php?id=" . $id);
 }
-    
-
-
 session_start();
 $is_authenticated = isset($_SESSION['isAuthenticated']) ? $_SESSION['isAuthenticated'] : false;
 if ($is_authenticated) {
     $user = $_SESSION['user'];
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -55,12 +46,13 @@ if ($is_authenticated) {
 </head>
 
 <style>
-   .fake {
-    margin-left: 100px;
-}
-.ftco-section-reservation {
-  clear: both; }
+    .fake {
+        margin-left: 100px;
+    }
 
+    .ftco-section-reservation {
+        clear: both;
+    }
 </style>
 
 <body>
@@ -94,11 +86,24 @@ if ($is_authenticated) {
                                     <li><a href="#product">Product</a></li>
                                     <li><a href="">Book Table</a></li>
                                     <li><a href="#footer">Contact us</a></li>
+
+                                    <?php
+                                    echo '<li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $user["user_name"] . '</a>
+                                        <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+                                            <a class="dropdown-item" href="#">' . $user["status"] . '</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </li>
+                                    '
+                                    
+                                    ?>
                                     <?php
                                     if ($is_authenticated) {
                                         echo '
                                         <li></li>
-                                        <li><a href="modal/logout.php">'.$user["user_name"].'</a></li>                                     
+                                        <li><a href="modal/logout.php">' . $user["user_name"] . '</a></li>                                     
                                         ';
                                     } else {
                                         echo '
@@ -107,7 +112,7 @@ if ($is_authenticated) {
                                         ';
                                     }
                                     ?>
-                                   
+
                                     <li> <a href="view-cart.php" class="btn wishlist"><i class="fa fa-shopping-cart"></i><span>(0)</span></a></li>
                                 </ul>
                             </div>
@@ -116,7 +121,7 @@ if ($is_authenticated) {
                 </div>
             </div>
         </header>
-    </div>  
+    </div>
     <!-- div ảnh bìa -->
     <div id="banner" class="banner full-screen-mode parallax">
         <div class="container pr">
@@ -138,7 +143,7 @@ if ($is_authenticated) {
     </div>
 
 
-                               
+
 
     <!-- Bottom Bar Start -->
     <div class="bottom-bar">
@@ -283,7 +288,7 @@ if ($is_authenticated) {
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <div class="modal-body">
                     <h2 class="block-title text-center">
-                            Reservation with us
+                        Reservation with us
                     </h2>
                     <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
                         <div id="booking" class="section">
@@ -294,7 +299,7 @@ if ($is_authenticated) {
                                             <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                                             </div>
                                             <h4 class="form-title">BOOKING FORM</h4>
-                                            
+
                                             <form role="form" method="post" action="Email/phpsentmail.php">
 
                                                 <div class="row">
@@ -303,7 +308,7 @@ if ($is_authenticated) {
                                                             <span class="form-label">Select rooms</span>
                                                             <select class="form-control content" name="room">
                                                                 <?php
-                                                                
+
                                                                 // select du lieu truy van la new prod
                                                                 $sql = 'select * from room_restaurant';
                                                                 $getAll = $dt->select($sql);
@@ -329,7 +334,7 @@ if ($is_authenticated) {
                                                                 ?>
                                                                     <option><?php echo $product['name_newProd'] ?></option>
                                                                 <?php
-                                                                   
+
                                                                 } ?>
                                                             </select>
                                                             <span class="select-arrow"></span>
@@ -530,140 +535,140 @@ if ($is_authenticated) {
     </div>
 
     <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <h2 class="block-title text-center">
-                                Our Menu
-                            </h2>
-                            <p class="title-caption text-center"> Chọn chọn và chọn nha quý vị </p>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">
+                            Our Menu
+                        </h2>
+                        <p class="title-caption text-center"> Chọn chọn và chọn nha quý vị </p>
+                    </div>
+                    <div class="tab-menu">
+                        <div class="slider slider-nav">
+
+                            <div class="tab-title-menu">
+                                <h2>Break Fast</h2>
+
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>Wedding</h2>
+
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>Wedding</h2>
+
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>DRINKS</h2>
+
+                            </div>
                         </div>
-                        <div class="tab-menu">
-                            <div class="slider slider-nav">
+                        <div class="slider slider-single">
+                            <!-- Tab pen product  -->
+                            <!-- tab product wedding -->
+                            <div>
+                                <?php
 
-                                <div class="tab-title-menu">
-                                    <h2>Break Fast</h2>
-
-                                </div>
-                                <div class="tab-title-menu">
-                                    <h2>Wedding</h2>
-
-                                </div>
-                                <div class="tab-title-menu">
-                                    <h2>Wedding</h2>
-
-                                </div>
-                                <div class="tab-title-menu">
-                                    <h2>DRINKS</h2>
-
-                                </div>
+                                $sql = 'select * from wedding_img';
+                                $getAll = $dt->select($sql);
+                                foreach ($getAll as $wedding) {
+                                ?>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="offer-item">
+                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                            <div>
+                                                <h3><?php echo $wedding['name'] ?></h3>
+                                                <p>
+                                                    <?php echo $wedding['description'] ?>
+                                                </p>
+                                            </div>
+                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
-                            <div class="slider slider-single">
-                                <!-- Tab pen product  -->
-                                <!-- tab product wedding -->
-                                <div>
-                                    <?php
 
-                                    $sql = 'select * from wedding_img';
-                                    $getAll = $dt->select($sql);
-                                    foreach ($getAll as $wedding) {
-                                    ?>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                            <div class="offer-item">
-                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                                <div>
-                                                    <h3><?php echo $wedding['name'] ?></h3>
-                                                    <p>
-                                                        <?php echo $wedding['description'] ?>
-                                                    </p>
-                                                </div>
-                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                            <!-- tab product wedding -->
+                            <div>
+                                <?php
+
+                                $sql = 'select * from wedding_img';
+                                $getAll = $dt->select($sql);
+                                foreach ($getAll as $wedding) {
+                                ?>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="offer-item">
+                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                            <div>
+                                                <h3><?php echo $wedding['name'] ?></h3>
+                                                <p>
+                                                    <?php echo $wedding['description'] ?>
+                                                </p>
                                             </div>
+                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
                                         </div>
-                                    <?php } ?>
-                                </div>
-
-                                <!-- tab product wedding -->
-                                <div>
-                                    <?php
-
-                                    $sql = 'select * from wedding_img';
-                                    $getAll = $dt->select($sql);
-                                    foreach ($getAll as $wedding) {
-                                    ?>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                            <div class="offer-item">
-                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                                <div>
-                                                    <h3><?php echo $wedding['name'] ?></h3>
-                                                    <p>
-                                                        <?php echo $wedding['description'] ?>
-                                                    </p>
-                                                </div>
-                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-
-                                <!-- tab product wedding -->
-                                <div>
-                                    <?php
-
-                                    $sql = 'select * from wedding_img';
-                                    $getAll = $dt->select($sql);
-                                    foreach ($getAll as $wedding) {
-                                    ?>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                            <div class="offer-item">
-                                                <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
-                                                <div>
-                                                    <h3><?php echo $wedding['name'] ?></h3>
-                                                    <p>
-                                                        <?php echo $wedding['description'] ?>
-                                                    </p>
-                                                </div>
-                                                <span class="offer-price">$<?php echo $wedding['price'] ?></span>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-
-                                <!-- tab product drink -->
-                                <div>
-                                    <?php
-
-                                    $sql = 'select * from drinks';
-                                    $getAll = $dt->select($sql);
-                                    foreach ($getAll as $drinks) {
-                                    ?>
-
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                            <div class="offer-item">
-                                                <img src="<?php echo $drinks['image_water'] ?>" alt="" class="img-responsive">
-                                                <div>
-                                                    <h3><?php echo $drinks['name_water'] ?></h3>
-                                                    <p>
-                                                        <?php echo $drinks['description'] ?>
-                                                    </p>
-                                                </div>
-                                                <span class="offer-price">$<?php echo $drinks['price'] ?></span>
-                                            </div>
-                                        </div>
-                                    <?php
-                                    } ?>
-                                </div>
-
+                                    </div>
+                                <?php } ?>
                             </div>
+
+                            <!-- tab product wedding -->
+                            <div>
+                                <?php
+
+                                $sql = 'select * from wedding_img';
+                                $getAll = $dt->select($sql);
+                                foreach ($getAll as $wedding) {
+                                ?>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="offer-item">
+                                            <img src="<?php echo $wedding['image'] ?>" alt="" class="img-responsive">
+                                            <div>
+                                                <h3><?php echo $wedding['name'] ?></h3>
+                                                <p>
+                                                    <?php echo $wedding['description'] ?>
+                                                </p>
+                                            </div>
+                                            <span class="offer-price">$<?php echo $wedding['price'] ?></span>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+
+                            <!-- tab product drink -->
+                            <div>
+                                <?php
+
+                                $sql = 'select * from drinks';
+                                $getAll = $dt->select($sql);
+                                foreach ($getAll as $drinks) {
+                                ?>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                        <div class="offer-item">
+                                            <img src="<?php echo $drinks['image_water'] ?>" alt="" class="img-responsive">
+                                            <div>
+                                                <h3><?php echo $drinks['name_water'] ?></h3>
+                                                <p>
+                                                    <?php echo $drinks['description'] ?>
+                                                </p>
+                                            </div>
+                                            <span class="offer-price">$<?php echo $drinks['price'] ?></span>
+                                        </div>
+                                    </div>
+                                <?php
+                                } ?>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
     <!-- end menu -->
-    
+
 
     <div id="product" class="gallery-main pad-top-100 pad-bottom-100">
         <div class="container">
@@ -677,7 +682,7 @@ if ($is_authenticated) {
                     </div>
                     <div class="gal-container clearfix">
                         <?php
-                       
+
                         $sql = 'select * from room_restaurant';
                         $getAll = $dt->select($sql);
                         foreach ($getAll as $room) {
@@ -740,88 +745,88 @@ if ($is_authenticated) {
 
 
 
-    <div class="footer-box pad-top-70">
-        <div class="container">
-            <div class="row">
-                <div class="footer-in-main">
-                    <div class="footer-logo">
-                        <div class="text-center">
-                            <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="footer-box pad-top-70">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-in-main">
+                        <div class="footer-logo">
+                            <div class="text-center">
+                                <iframe style="width:500px;height:300px " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0519214644173!2d108.23811741220337!3d16.06010025378527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142177e16d75991%3A0x711c915f162f6505!2zMTAxQiBMw6ogSOG7r3UgVHLDoWMsIEFuIEjhuqNpIMSQw7RuZywgU8ahbiBUcsOgLCDEkMOgIE7hurVuZyA1NTAwMDA!5e0!3m2!1svi!2s!4v1617761891676!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                        <div class="footer-box-a">
-                            <h3>About Us</h3>
-                            <p>Chúng tôi là sự lựa chọn đúng đắn cho bạn</p>
-                            <ul class="socials-box footer-socials pull-left">
-                                <li>
-                                    <a href="#">
-                                        <div class="social-circle-border"><i class="fa  fa-facebook"></i></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="social-circle-border"><i class="fa fa-twitter"></i></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="social-circle-border"><i class="fa fa-google-plus"></i></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="social-circle-border"><i class="fa fa-pinterest"></i></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="social-circle-border"><i class="fa fa-linkedin"></i></div>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-a">
+                                <h3>About Us</h3>
+                                <p>Chúng tôi là sự lựa chọn đúng đắn cho bạn</p>
+                                <ul class="socials-box footer-socials pull-left">
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa  fa-facebook"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-twitter"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-google-plus"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-pinterest"></i></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="social-circle-border"><i class="fa fa-linkedin"></i></div>
+                                        </a>
+                                    </li>
+                                </ul>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                        <div class="footer-box-c">
-                            <h3>Contact Us</h3>
-                            <p>
-                                <i class="fa fa-map-signs" aria-hidden="true"></i>
-                                <span>99 Tô hiến thành</span>
-                            </p>
-                            <p>
-                                <i class="fa fa-mobile" aria-hidden="true"></i>
-                                <span>
-                                    +84 037784687
-                                </span>
-                            </p>
-                            <p>
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                                <span><a href="#">amthucvietnamcusine@gmail.com</a></span>
-                            </p>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-c">
+                                <h3>Contact Us</h3>
+                                <p>
+                                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                                    <span>99 Tô hiến thành</span>
+                                </p>
+                                <p>
+                                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                                    <span>
+                                        +84 037784687
+                                    </span>
+                                </p>
+                                <p>
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span><a href="#">amthucvietnamcusine@gmail.com</a></span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
-                        <div class="footer-box-d">
-                            <h3>Opening Hours</h3>
-                            <ul>
-                                <li>
-                                    <p>Thứ 2 - Thứ 6 </p>
-                                    <span> 11:00 AM - 9:00 PM</span>
-                                </li>
-                                <li>
-                                    <p>Thứ 7 - Chủ nhật </p>
-                                    <span> 11:00 AM - 5:00 PM</span>
-                                </li>
-                            </ul>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-box-d">
+                                <h3>Opening Hours</h3>
+                                <ul>
+                                    <li>
+                                        <p>Thứ 2 - Thứ 6 </p>
+                                        <span> 11:00 AM - 9:00 PM</span>
+                                    </li>
+                                    <li>
+                                        <p>Thứ 7 - Chủ nhật </p>
+                                        <span> 11:00 AM - 5:00 PM</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- ALL JS FILES -->

@@ -16,8 +16,6 @@ $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
 </head>
 
 <body>
-
-
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -73,7 +71,8 @@ $cart = (isset($_SESSION['cart']) ? $_SESSION['cart'] : []);
 
                                 <tr>
                                     <td colspan="6">
-                                        <form method="post" action="payment.php">
+                                    <!-- checkout thanh toán -->
+                                        <form method="post" action="">
                                             <?php if ($sum <= 0) {
                                             ?>
 
